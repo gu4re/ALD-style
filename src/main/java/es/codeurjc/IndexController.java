@@ -5,9 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ExampleController {
+public class IndexController {
 	@GetMapping("/")
-	public String personal_data(Model model) {
+	public String getIndex(Model model) {
 		return "index.html";
 	}
 }
