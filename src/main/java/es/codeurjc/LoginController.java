@@ -1,16 +1,17 @@
 package es.codeurjc;
 
+import org.h2.util.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class LoginController {
-	@PostMapping("/api/login")
-	public ResponseEntity<Void> login(@RequestParam String user, @RequestParam String password) {
-		if (LoginService.authenticate(new User(user, password)))
-			return ResponseEntity.ok().build();
+	@PostMapping("/login")
+	public ResponseEntity<Void> login(@RequestBody JSONObject userRequested) {
+		//if (LoginService.authenticate(userRequested))
+			//return ResponseEntity.ok().build();
 		return ResponseEntity.badRequest().build();
 	}
 }
