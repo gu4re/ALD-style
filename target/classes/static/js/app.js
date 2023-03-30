@@ -12,7 +12,8 @@
             new Route('homeSec','homeSec.html'),
             new Route('login','login.html'),
             new Route('cart','cart.html'),
-            new Route('register','register.html')
+            new Route('register','register.html'),
+            new Route('404','404.html')
         ]);
     }
     init();
