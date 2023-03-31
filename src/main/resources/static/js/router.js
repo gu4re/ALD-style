@@ -33,6 +33,11 @@ Router.prototype = {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i];
                 if(route.isActiveRoute(window.location.hash.substr(1))) {
+                    if (route.htmlName === 'login.html') {
+                      var script = document.createElement('script');
+                      script.src = 'js/login.js?' + Date.now();
+                      document.head.appendChild(script);
+                    }
                     scope.goToRoute(route.htmlName);
                 }
             }
