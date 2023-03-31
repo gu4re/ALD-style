@@ -1,6 +1,7 @@
-  const form = document.querySelector('#login-form');
+  console.log('Script cargado correctamente');
+  var form = document.querySelector('#login-form');
   console.log('form', form);
-  const btn = form.querySelector('#login-button');
+  var btn = form.querySelector('#login-button');
   btn.addEventListener('click', (event) => {
       console.log('click');
       event.preventDefault();

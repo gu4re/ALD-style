@@ -35,7 +35,7 @@ Router.prototype = {
                 if(route.isActiveRoute(window.location.hash.substr(1))) {
                     if (route.htmlName === 'login.html') {
                       var script = document.createElement('script');
-                      script.src = 'js/login.js';
+                      script.src = 'js/login.js?' + Date.now();
                       document.head.appendChild(script);
                     }
                     scope.goToRoute(route.htmlName);
