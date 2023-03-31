@@ -29,7 +29,8 @@ Router.prototype = {
         this.hasChanged(this, r);
     },
     hasChanged: function(scope, r){
-        var routeFound = true;
+        var routeFound2 = false;
+        var routeFound3 = false;
         if (window.location.hash.length > 0) {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i];
@@ -39,16 +40,19 @@ Router.prototype = {
                       script.src = 'js/login.js?' + Date.now();
                       document.head.appendChild(script);
                     }
-                    scope.goToRoute(route.htmlName, !routeFound);
+                    routeFound2 = true;
+                    routeFound3 = true;
+                    scope.goToRoute(route.htmlName, false);
                     break;
                 }
             }
-            scope.goToRoute('404.html', !routeFound);
+            routeFound3 = true;
+            scope.goToRoute('404.html', routeFound2);
         } else {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i];
                 if(route.default) {
-                    scope.goToRoute(route.htmlName, !routeFound);
+                    scope.goToRoute(route.htmlName, routeFound3);
                 }
             }
         }
@@ -67,7 +71,6 @@ Router.prototype = {
             };
             xhttp.open('GET', url, true);
             xhttp.send();
-            isRequestSent = true;
         })(this);
     }
 };
