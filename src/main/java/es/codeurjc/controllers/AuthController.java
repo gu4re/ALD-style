@@ -1,5 +1,7 @@
-package es.codeurjc;
+package es.codeurjc.controllers;
 
+import es.codeurjc.services.AuthService;
+import es.codeurjc.classes.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.logging.Logger;
 
 @Controller
-public class LoginController {
+public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<Void> login(@RequestBody String jsonRequested) {
 		try {
@@ -18,7 +20,7 @@ public class LoginController {
 			String email = jsonObject.getString("email");
 			String password = jsonObject.getString("password");
 			User userRequested = new User(email, password);
-			if (LoginService.authenticate(userRequested))
+			if (AuthService.authenticate(userRequested))
 				return ResponseEntity.ok().build();
 			return ResponseEntity.badRequest().build();
 		}

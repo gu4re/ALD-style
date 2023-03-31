@@ -1,4 +1,4 @@
-package es.codeurjc;
+package es.codeurjc.classes;
 
 import lombok.Data;
 

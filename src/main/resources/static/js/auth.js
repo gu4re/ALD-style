@@ -5,7 +5,7 @@
   btn.addEventListener('click', (event) => {
       console.log('click');
       event.preventDefault();
-      fetch('http://localhost:8080/login', {
+      fetch('/login', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
