@@ -5,16 +5,14 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
   </head>
   <body>
-    <form action="" method="post" id="login">
+    <form method="post" id="login-form" action="">
       <h1 class="lead fw-bolder text-dark-50 mb-0 display-7">Login</h1>
-      <label for="usuario">User:</label>
-      <input type="text" id="user" name="user" required>
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" required>
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
-      <p>Dont have an account? <a href="#register">Sign up</a></p>
-      <input type="submit" value="Log in">
+      <p>Don't have an account? <a href="#register">Sign up</a></p>
+      <button id="login-button" type="button">Log in</button>
     </form>
   </body>
 </html>
-
-
