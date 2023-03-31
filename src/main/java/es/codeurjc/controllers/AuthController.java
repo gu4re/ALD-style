@@ -25,7 +25,21 @@ public class AuthController {
 			return ResponseEntity.badRequest().build();
 		}
 		catch(JSONException e){
-			Logger.getLogger("Error has occurred during parsing JSONArray.");
+			Logger.getLogger("Error has occurred during parsing JSON.");
+		}
+		return ResponseEntity.notFound().build();
+	}
+	@PostMapping("/register")
+	public ResponseEntity<Void> register(@RequestBody String jsonRequested){
+		try{
+			JSONObject jsonObject = new JSONObject(jsonRequested);
+			String email = jsonObject.getString("email");
+			String username = jsonObject.getString("username");
+			String password = jsonObject.getString("password");
+			User userRequested = new User(email, password, username);
+			// Check if already exists or not and act in consequence
+		}catch(JSONException e){
+			Logger.getLogger("Error has occurred during parsing JSON.");
 		}
 		return ResponseEntity.notFound().build();
 	}
