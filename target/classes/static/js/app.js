@@ -9,7 +9,6 @@
             new Route('newArrivals','newArrivals.html'),
             new Route('allProducts','allProducts.html'),
             new Route('sales','sales.html'),
-            new Route('homeSec','homeSec.html'),
             new Route('login','login.html'),
             new Route('cart','cart.html'),
             new Route('register','register.html'),
