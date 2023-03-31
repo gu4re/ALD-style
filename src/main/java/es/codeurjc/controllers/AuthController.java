@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.logging.Logger;
 
 @Controller
+@RequestMapping("/auth")
 public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<Void> login(@RequestBody String jsonRequested) {
@@ -38,9 +40,16 @@ public class AuthController {
 			String password = jsonObject.getString("password");
 			User userRequested = new User(email, password, username);
 			// Check if already exists or not and act in consequence
-		}catch(JSONException e){
+			if (AuthService.userExists(userRequested))
+				return ResponseEntity.badRequest().build();
+			AuthService.addUser(userRequested);
+			return ResponseEntity.ok().build();
+		} catch(JSONException e){
 			Logger.getLogger("Error has occurred during parsing JSON.");
+			return ResponseEntity.badRequest().build();
+		} catch (NullPointerException e){
+			Logger.getLogger("Tried to add or check a null user.");
+			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.notFound().build();
 	}
 }

@@ -37,7 +37,12 @@ Router.prototype = {
                 if(route.isActiveRoute(window.location.hash.substr(1))) {
                     if (route.htmlName === 'login.html') {
                       var script = document.createElement('script');
-                      script.src = 'js/auth.js?' + Date.now();
+                      script.src = 'js/login.js?' + Date.now();
+                      document.head.appendChild(script);
+                    }
+                    else if (route.htmlName === 'register.html') {
+                      var script = document.createElement('script');
+                      script.src = 'js/register.js?' + Date.now();
                       document.head.appendChild(script);
                     }
                     routeFound2 = true;

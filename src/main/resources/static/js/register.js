@@ -1,11 +1,11 @@
-console.log('Script cargado correctamente');
+console.log('Script loaded correctly');
   var form = document.querySelector('#register-form');
   console.log('form', form);
   var btn = form.querySelector('#create-button');
   btn.addEventListener('click', (event) => {
       console.log('click');
       event.preventDefault();
-      fetch('/register', {
+      fetch('/auth/register', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -19,15 +19,16 @@ console.log('Script cargado correctamente');
     .then((response) => {
       console.log('response', response);
       if(response.ok) {
+        alert('Succesfully sign up! Close and login to your account.');
         // Si la respuesta es exitosa, redirigir al usuario al home
         window.location.href = '#home';
       } else {
         // Si la respuesta indica un error de credenciales, mostrar un mensaje de alerta
-        alert('Wrong credentials.');
+        alert('Invalid fields or maybe user already exists.');
       }
     })
     .catch((error) => {
       // Si ocurre un error durante la petición, mostrar un mensaje de alerta
-      alert('Unexpected error during authentication.');
+      alert('Unexpected error signing up.');
     });
   });
