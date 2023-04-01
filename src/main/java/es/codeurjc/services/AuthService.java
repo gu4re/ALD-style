@@ -6,19 +6,33 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Service that manage all about authenticate and serves the process of login
+ * and register of someone inside the Web Application
+ * @author gu4re
+ * @version 1.0
+ */
 @Service
 public class AuthService implements Serializable {
-	// Map<Email, Password>
+	
+	/**
+	 * Fake database that controls the users registered in the App
+	 */
 	private static Map<String, String> usersMap;
+	
+	/**
+	 * Private constructor avoiding initialize of Service
+	 */
 	private AuthService(){}
+	
+	/**
+	 * Starts the AuthService connecting the database to the Service
+	 */
 	@SuppressWarnings(value = "unchecked")
 	public static void run(){
 		try (ObjectInputStream ois = new ObjectInputStream(
@@ -29,39 +43,59 @@ public class AuthService implements Serializable {
 		    } else {
 		        usersMap = new HashMap<>();
 		    }
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (IOException e) {
 		    usersMap = new HashMap<>();
+		} catch (ClassNotFoundException e){
+			Logger.getLogger("Unable to read content of database.");
 		}
 	}
+	
+	/**
+	 * Stops the AuthService before the Spring Application stops, saving the database
+	 * to a binary file
+	 */
 	@PreDestroy
 	public static void stop(){
 		try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream("src/main/resources/database/database.bin"))) {
             oos.writeObject(usersMap);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("Unable to reach file to write on.");
         }
 	}
+	
+	/**
+	 * Carriers the authenticate process of the web application,
+	 * checking if the user passed as parameter is already registered
+	 * @param user The user to be checked
+	 * @return True if the user is already registered otherwise false
+	 */
 	public static boolean authenticate(@NotNull User user){
 		try{
 			return usersMap.get(user.getMail()) != null
-		       && usersMap.get(user.getMail()).equals(hashCode(user.getPassword()));
+		       && usersMap.get(user.getMail()).equals(SecurityService.hashCode(user.getPassword()));
 		} catch (NoSuchAlgorithmException e){
 			Logger.getLogger("Failed hash function.");
 		}
 		return false;
 	}
+	
+	/**
+	 * Check if a user exists or not
+	 * @param user The user to be checked
+	 * @return True if the user exists otherwise false
+	 */
 	public static boolean userExists(@NotNull User user){
 		return usersMap.get(user.getMail()) != null;
 	}
-	private static String hashCode(@NotNull String password) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] hashBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-		return Base64.getEncoder().encodeToString(hashBytes);
-    }
+	
+	/**
+	 * Register the user inside the database
+	 * @param user The user to be added into database
+	 */
 	public static void addUser(@NotNull User user){
 		try {
-			usersMap.put(user.getMail(), hashCode(user.getPassword()));
+			usersMap.put(user.getMail(), SecurityService.hashCode(user.getPassword()));
 		} catch (NoSuchAlgorithmException e){
 			Logger.getLogger("Failed hash function.");
 		}
