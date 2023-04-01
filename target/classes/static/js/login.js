@@ -1,4 +1,4 @@
-  console.log('Script loaded correctly.');
+console.log('Script loaded correctly.');
 var form = document.querySelector('#login-form');
 console.log('form', form);
 var btn = form.querySelector('#login-button');
@@ -18,9 +18,10 @@ btn.addEventListener('click', (event) => {
         })
     })
     .then((response) => {
+        console.log('email', email);
         console.log('response', response);
         if(response.ok) {
-            // Si la respuesta es exitosa, redirigir al usuario al home
+            // If the response is OK then go back to home with their session
             window.location.href = '#home';
             var loginButton = document.querySelector('[href="#login"]');
             loginButton.innerHTML = `<i class="bi bi-person-fill"></i>
@@ -29,18 +30,18 @@ btn.addEventListener('click', (event) => {
                 <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#404">Perfil</a></li>
+                    <li><a class="dropdown-item" href="#404">Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#404">Cerrar sesión</a></li>
+                    <li><a class="dropdown-item" href="/">Sign out</a></li>
                 </ul>`;
             loginButton.removeAttribute('href');
         } else {
-            // Si la respuesta indica un error de credenciales, mostrar un mensaje de alerta
+            // If the response indicates a credential error, display an alert message
             alert('Wrong credentials.');
         }
     })
     .catch((error) => {
-        // Si ocurre un error durante la petición, mostrar un mensaje de alerta
+        // If an error occurs during the request, display an alert message
         alert('Unexpected error during authentication.');
     });
 });

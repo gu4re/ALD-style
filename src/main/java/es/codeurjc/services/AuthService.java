@@ -1,6 +1,5 @@
 package es.codeurjc.services;
 
-import es.codeurjc.classes.User;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +14,13 @@ import java.util.logging.Logger;
  * Service that manage all about authenticate and serves the process of login
  * and register of someone inside the Web Application
  * @author gu4re
- * @version 1.0
+ * @version 1.1
  */
 @Service
 public class AuthService implements Serializable {
-	
 	/**
 	 * Fake database that controls the users registered in the App
+	 * and maps the email of the User (Key) with the password previously hashed (Value)
 	 */
 	private static Map<String, String> usersMap;
 	
@@ -40,6 +39,7 @@ public class AuthService implements Serializable {
 		    Object obj = ois.readObject();
 		    if (obj instanceof Map<?,?>) {
 		        usersMap = (Map<String, String>) obj;
+				usersMap.put("pedro", "1234");
 		    } else {
 		        usersMap = new HashMap<>();
 		    }
@@ -67,13 +67,14 @@ public class AuthService implements Serializable {
 	/**
 	 * Carriers the authenticate process of the web application,
 	 * checking if the user passed as parameter is already registered
-	 * @param user The user to be checked
+	 * @param email The email to be checked
+	 * @param rawPassword The plain password to be checked
 	 * @return True if the user is already registered otherwise false
 	 */
-	public static boolean authenticate(@NotNull User user){
+	public static boolean authenticate(@NotNull String email, @NotNull String rawPassword){
 		try{
-			return usersMap.get(user.getMail()) != null
-		       && usersMap.get(user.getMail()).equals(SecurityService.hashCode(user.getPassword()));
+			return usersMap.get(email) != null
+		       && usersMap.get(email).equals(SecurityService.hashCode(rawPassword));
 		} catch (NoSuchAlgorithmException e){
 			Logger.getLogger("Failed hash function.");
 		}
@@ -82,20 +83,21 @@ public class AuthService implements Serializable {
 	
 	/**
 	 * Check if a user exists or not
-	 * @param user The user to be checked
+	 * @param email The user's email to be checked
 	 * @return True if the user exists otherwise false
 	 */
-	public static boolean userExists(@NotNull User user){
-		return usersMap.get(user.getMail()) != null;
+	public static boolean userExists(@NotNull String email){
+		return usersMap.get(email) != null;
 	}
 	
 	/**
 	 * Register the user inside the database
-	 * @param user The user to be added into database
+	 * @param rawPassword The user's plain password to be added into database
+	 * @param email The user's email to be added into database
 	 */
-	public static void addUser(@NotNull User user){
+	public static void addUser(@NotNull String email, @NotNull String rawPassword){
 		try {
-			usersMap.put(user.getMail(), SecurityService.hashCode(user.getPassword()));
+			usersMap.put(email, SecurityService.hashCode(rawPassword));
 		} catch (NoSuchAlgorithmException e){
 			Logger.getLogger("Failed hash function.");
 		}
