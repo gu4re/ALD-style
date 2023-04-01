@@ -18,9 +18,13 @@ btn.addEventListener('click', (event) => {
         })
     })
     .then((response) => {
-        console.log('email', email);
         console.log('response', response);
         if(response.ok) {
+            Swal.fire(
+                'Login success!',
+                'Close this window to follow your session.',
+                'success'
+            )
             // If the response is OK then go back to home with their session
             window.location.href = '#home';
             var loginButton = document.querySelector('[href="#login"]');
@@ -37,7 +41,11 @@ btn.addEventListener('click', (event) => {
             loginButton.removeAttribute('href');
         } else {
             // If the response indicates a credential error, display an alert message
-            alert('Wrong credentials.');
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Wrong credentials',
+            })
         }
     })
     .catch((error) => {

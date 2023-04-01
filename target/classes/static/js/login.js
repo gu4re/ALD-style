@@ -18,9 +18,13 @@ btn.addEventListener('click', (event) => {
         })
     })
     .then((response) => {
-        console.log('email', email);
         console.log('response', response);
         if(response.ok) {
+            Swal.fire(
+                'Login success!',
+                'Close this window to follow your session.',
+                'success'
+            )
             // If the response is OK then go back to home with their session
             window.location.href = '#home';
             var loginButton = document.querySelector('[href="#login"]');
