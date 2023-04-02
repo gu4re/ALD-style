@@ -6,14 +6,6 @@ var btn = form.querySelector('#login-button');
 var email = '';
 btn.addEventListener('click', (event) => {
     email = document.getElementById('email').value;
-    if (!regex.test(email)){
-       Swal.fire({
-          icon: 'warning',
-          title: 'Oops...',
-          text: 'Invalid email format',
-       })
-       return;
-    }
     console.log('click');
     event.preventDefault();
     fetch('/auth/login', {
@@ -42,7 +34,7 @@ btn.addEventListener('click', (event) => {
                       <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-fill"></i> <span class="text-about">${email}</span>
                       </a>
-                      <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
+                      <ul class="dropdown-menu my-2 me-sm-4 position-absolute" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#404">Profile</a></li>
                         <hr class="dropdown-divider">
                         <li><a class="dropdown-item" href="/">Sign out</a></li>
