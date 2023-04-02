@@ -1,10 +1,19 @@
 console.log('Script loaded correctly.');
+var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 var form = document.querySelector('#login-form');
 console.log('form', form);
 var btn = form.querySelector('#login-button');
 var email = '';
 btn.addEventListener('click', (event) => {
     email = document.getElementById('email').value;
+    if (!regex.test(email)){
+       Swal.fire({
+          icon: 'warning',
+          title: 'Oops...',
+          text: 'Invalid email format',
+       })
+       return;
+    }
     console.log('click');
     event.preventDefault();
     fetch('/auth/login', {
@@ -20,7 +29,12 @@ btn.addEventListener('click', (event) => {
     .then((response) => {
         console.log('response', response);
         if(response.ok) {
-            // Si la respuesta es exitosa, redirigir al usuario al home
+            Swal.fire(
+                'Login success!',
+                'Close this window to follow your session.',
+                'success'
+            )
+            // If the response is OK then go back to home with their session
             window.location.href = '#home';
             var loginButton = document.querySelector('[href="#login"]');
             loginButton.innerHTML = 
@@ -29,19 +43,36 @@ btn.addEventListener('click', (event) => {
                         <i class="bi bi-person-fill"></i> <span class="text-about">${email}</span>
                       </a>
                       <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#allProducts">Profile</a></li>
+                        <li><a class="dropdown-item" href="#404">Profile</a></li>
                         <hr class="dropdown-divider">
-                        <li><a class="dropdown-item" href="#allProducts">Sign Up</a></li>
+                        <li><a class="dropdown-item" href="/">Sign out</a></li>
                       </ul>
                     </div>`;
             loginButton.removeAttribute('href');           
-        } else {
-            // Si la respuesta indica un error de credenciales, mostrar un mensaje de alerta
-            alert('Wrong credentials.');
+        } else if (response.status === 400){
+            // If the response indicates a credential error, display an alert message
+            Swal.fire({
+              icon: 'warning',
+              title: 'Oops...',
+              text: 'Wrong credentials',
+            })
+        }
+        else{
+            Swal.fire({
+              icon: 'error',
+              title: 'Internal server error!',
+              text: 'Status code: ${response.status}',
+              footer: '<a href="#404">Contact support for more information.</a>'
+            })
         }
     })
     .catch((error) => {
-        // Si ocurre un error durante la petición, mostrar un mensaje de alerta
-        alert('Unexpected error during authentication.');
+        // if an unexpected error occurs
+        Swal.fire({
+              icon: 'error',
+              title: 'Internal server error!',
+              text: 'Status code: ${response.status}',
+              footer: '<a href="#404">Contact support for more information.</a>'
+        })
     });
 });
