@@ -30,7 +30,7 @@ btn.addEventListener('click', (event) => {
        Swal.fire({
           icon: 'warning',
           title: 'Oops...',
-          text: 'Password and Confirm Password must be the same',
+          text: 'Password fields must be the same',
        })
        return;
     }
