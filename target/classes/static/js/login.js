@@ -20,7 +20,12 @@ btn.addEventListener('click', (event) => {
     .then((response) => {
         console.log('response', response);
         if(response.ok) {
-            // Si la respuesta es exitosa, redirigir al usuario al home
+            Swal.fire(
+                'Login success!',
+                'Close this window to follow your session.',
+                'success'
+            )
+            // If the response is OK then go back to home with their session
             window.location.href = '#home';
             var loginButton = document.querySelector('[href="#login"]');
             loginButton.innerHTML = 
@@ -35,13 +40,30 @@ btn.addEventListener('click', (event) => {
                       </ul>
                     </div>`;
             loginButton.removeAttribute('href');           
-        } else {
-            // Si la respuesta indica un error de credenciales, mostrar un mensaje de alerta
-            alert('Wrong credentials.');
+        } else if (response.status === 400){
+            // If the response indicates a credential error, display an alert message
+            Swal.fire({
+              icon: 'warning',
+              title: 'Oops...',
+              text: 'Wrong credentials',
+            })
+        }
+        else{
+            Swal.fire({
+              icon: 'error',
+              title: 'Internal server error!',
+              text: 'Status code: ${response.status}',
+              footer: '<a href="#404">Contact support for more information.</a>'
+            })
         }
     })
     .catch((error) => {
-        // Si ocurre un error durante la petición, mostrar un mensaje de alerta
-        alert('Unexpected error during authentication.');
+        // if an unexpected error occurs
+        Swal.fire({
+              icon: 'error',
+              title: 'Internal server error!',
+              text: 'Status code: ${response.status}',
+              footer: '<a href="#404">Contact support for more information.</a>'
+        })
     });
 });

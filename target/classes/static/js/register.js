@@ -34,13 +34,30 @@ btn.addEventListener('click', (event) => {
                 <li><a class="dropdown-item" href="/">Sign out</a></li>
             </ul>`;
         loginButton.removeAttribute('href');
-      } else {
-        // Si la respuesta indica un error de credenciales, mostrar un mensaje de alerta
-        alert('Invalid fields or maybe user already exists.');
+      } else if (response.status === 400){
+        // If the response indicates a credential error, display an alert message
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops...',
+          text: 'Invalid fields introduced.',
+        })
+      }
+      else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Internal server error!',
+            text: 'Status code: ${response.status}',
+            footer: '<a href="#404">Contact support for more information.</a>'
+          })
       }
     })
     .catch((error) => {
       // Si ocurre un error durante la petición, mostrar un mensaje de alerta
-      alert('Unexpected error signing up.');
+      Swal.fire({
+          icon: 'error',
+          title: 'Internal server error!',
+          text: 'Status code: ${response.status}',
+          footer: '<a href="#404">Contact support for more information.</a>'
+      })
     });
 });

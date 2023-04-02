@@ -32,6 +32,7 @@
     cursor: pointer;
     transition: background-color 0.2s;
     margin-left: 365px;
+    width: 100px;
   }
   #login-button:hover {
     background-color: #555;
