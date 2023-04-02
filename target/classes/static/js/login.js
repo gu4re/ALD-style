@@ -18,30 +18,30 @@ btn.addEventListener('click', (event) => {
         })
     })
     .then((response) => {
-        console.log('email', email);
         console.log('response', response);
         if(response.ok) {
-            // If the response is OK then go back to home with their session
+            // Si la respuesta es exitosa, redirigir al usuario al home
             window.location.href = '#home';
             var loginButton = document.querySelector('[href="#login"]');
-            loginButton.innerHTML = `<i class="bi bi-person-fill"></i>
-                ${email}
-                <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
-                <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#404">Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/">Sign out</a></li>
-                </ul>`;
-            loginButton.removeAttribute('href');
+            loginButton.innerHTML = 
+                    `<div class="dropdown">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-fill"></i> <span class="text-about">${email}</span>
+                      </a>
+                      <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#allProducts">Profile</a></li>
+                        <hr class="dropdown-divider">
+                        <li><a class="dropdown-item" href="#allProducts">Sign Up</a></li>
+                      </ul>
+                    </div>`;
+            loginButton.removeAttribute('href');           
         } else {
-            // If the response indicates a credential error, display an alert message
+            // Si la respuesta indica un error de credenciales, mostrar un mensaje de alerta
             alert('Wrong credentials.');
         }
     })
     .catch((error) => {
-        // If an error occurs during the request, display an alert message
+        // Si ocurre un error durante la petición, mostrar un mensaje de alerta
         alert('Unexpected error during authentication.');
     });
 });
