@@ -1,7 +1,6 @@
 package es.codeurjc.services;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -28,7 +27,7 @@ public class SecurityService {
 	 * @return The plain text hashed
 	 * @throws NoSuchAlgorithmException If the SHA-256 algorithm is not available.
 	 */
-	public static @Nullable String hashCode(@NotNull String plainText) throws NoSuchAlgorithmException{
+	public static String hashCode(@NotNull String plainText) throws NoSuchAlgorithmException{
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] hashBytes = md.digest(plainText.getBytes(StandardCharsets.UTF_8));
 		return Base64.getEncoder().encodeToString(hashBytes);

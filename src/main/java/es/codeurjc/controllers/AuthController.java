@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * to log in and register. It is a controller based on 'POST' method so 'GET'
  * is not allowed
  * @author gu4re
- * @version 1.3
+ * @version 1.4
  */
 @Controller
 @RequestMapping("/auth")
