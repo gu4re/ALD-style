@@ -29,6 +29,8 @@ Router.prototype = {
         this.hasChanged(this, r);
     },
     hasChanged: function(scope, r){
+        var routeFound2 = false;
+        var routeFound3 = false;
         if (window.location.hash.length > 0) {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i];
@@ -38,20 +40,33 @@ Router.prototype = {
                       script.src = 'js/login.js?' + Date.now();
                       document.head.appendChild(script);
                     }
-                    scope.goToRoute(route.htmlName);
+                    else if (route.htmlName === 'register.html') {
+                      var script = document.createElement('script');
+                      script.src = 'js/register.js?' + Date.now();
+                      document.head.appendChild(script);
+                    }
+                    routeFound2 = true;
+                    routeFound3 = true;
+                    scope.goToRoute(route.htmlName, false);
+                    break;
                 }
             }
+            routeFound3 = true;
+            scope.goToRoute('404.html', routeFound2);
         } else {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i];
                 if(route.default) {
-                    scope.goToRoute(route.htmlName);
+                    scope.goToRoute(route.htmlName, routeFound3);
                 }
             }
         }
     },
-    goToRoute: function (htmlName) {
-        (function(scope) { 
+    goToRoute: function (htmlName, isRequestSent) {
+        if (isRequestSent) {
+            return;
+        }
+        (function(scope) {
             var url = 'html/' + htmlName,
                 xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
