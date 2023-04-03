@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Cart | Zapatillas ALD</title>
-	<link rel="stylesheet" type="text/css" href="css/cart.css">
-</head>
-<body>
-		<section id="carrito">
-			<h2>Shopping Cart</h2>
-			<table>
-				<tr>
-					<th>Product</th>
-					<th>Price</th>
-					<th>Size</th>
-				</tr>
-				<tr>
-					<td>Air max 90 Black</td>
-					<td>$130.00</td>
-					<td>40</td>
-				</tr>
-				<tr>
-					<td>Air force 1 low White</td>
-					<td>$110.00</td>
-					<td>42</td>
-				</tr>
-			</table>
-			<div class="total">
-				<p>Total: $240.00</p>
-			</div>
-			<form>
-				<label for="metodo-pago">Payment method:</label>
-				<select id="metodo-pago" name="metodo-pago">
-					<option value="tarjeta">Credit Card</option>
-					<option value="paypal">PayPal</option>
-				</select>
-			</form>
-			<button id="check_shopping" type="submit" class="comprar">Confirm Purchase</button>		
-		</section>
-</body>
+  <head>
+    <title>Cart | Zapatillas ALD</title>
+    <link rel="stylesheet" type="text/css" href="css/cart.css" />
+  </head>
+  <body>
+    <section id="carrito">
+      <h2>Shopping Cart</h2>
+      <table>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Size</th>
+        </tr>
+        <tr>
+          <td>Air max 90 Black</td>
+          <td>$130.00</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>Air force 1 low White</td>
+          <td>$110.00</td>
+          <td>42</td>
+        </tr>
+      </table>
+      <div class="total">
+        <p>Total: $240.00</p>
+      </div>
+      <form>
+        <label for="metodo-pago">Payment method:</label>
+        <select id="metodo-pago" name="metodo-pago">
+          <option value="tarjeta">Credit Card</option>
+          <option value="paypal">PayPal</option>
+        </select>
+      </form>
+      <button id="check_shopping" type="submit" class="comprar">
+        <a href="#creditCard" style="color: white; text-decoration: none"
+          >Confirm Purchase</a
+        >
+      </button>
+    </section>
+  </body>
 </html>

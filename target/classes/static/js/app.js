@@ -12,7 +12,9 @@
             new Route('login','login.html'),
             new Route('cart','cart.html'),
             new Route('register','register.html'),
-            new Route('404','404.html')
+            new Route('404','404.html'),
+            new Route('creditCard', 'creditCard.html'),
+            new Route('resetPasswd', 'resetPasswd.html')
         ]);
     }
     init();
