@@ -14,7 +14,13 @@
             new Route('register','register.html'),
             new Route('404','404.html'),
             new Route('creditCard', 'creditCard.html'),
+<<<<<<< HEAD
             new Route('forgotPasswd', 'forgotPasswd.html')
+=======
+            new Route('forgotPasswd', 'forgotPasswd'),
+            new Route('resetPasswd', 'resetPasswd.html')
+
+>>>>>>> change_htmls
         ]);
     }
     init();
