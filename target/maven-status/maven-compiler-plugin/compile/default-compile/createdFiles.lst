@@ -1,2 +1,7 @@
+es/codeurjc/controllers/HomeController.class
+es/codeurjc/controllers/AuthController.class
+es/codeurjc/services/SecurityService.class
+es/codeurjc/classes/User.class
+es/codeurjc/services/AuthService.class
 es/codeurjc/Application.class
-es/codeurjc/ExampleController.class
+es/codeurjc/controllers/ErrorController.class
