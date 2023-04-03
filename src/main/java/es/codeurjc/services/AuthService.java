@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * Service that manage all about authenticate and serves the process of login
  * and register of someone inside the Web Application
  * @author gu4re
- * @version 1.1
+ * @version 1.3
  */
 @Service
 public class AuthService implements Serializable {
@@ -30,31 +30,40 @@ public class AuthService implements Serializable {
 	private AuthService(){}
 	
 	/**
-	 * Starts the AuthService connecting the database to the Service
+	 * Starts the AuthService connecting the database to the Service.<br><br>
+	 * An <a style="color: #ff6666; display: inline;"><b>error</b></a> can occur
+	 * <a style="color: #E89B6C; display: inline;">if the database is not found</a>
+	 * (IOException) <a style="color: #E89B6C; display: inline;">or</a> reading
+	 * <a style="color: #E89B6C; display: inline;">casting fails</a> during deserialize
+	 * process inside database (ClassNotFoundException) in
+	 * <a style="color: #E89B6C; display: inline;">both cases</a> the app will run with
+	 * a <a style="color: #E89B6C; display: inline;">new and empty database</a>
 	 */
 	@SuppressWarnings(value = "unchecked")
 	public static void run(){
 		try (ObjectInputStream ois = new ObjectInputStream(
 		        new FileInputStream("src/main/resources/database/database.bin"))) {
 		    Object obj = ois.readObject();
-		    if (obj instanceof Map<?,?>) {
-		        usersMap = (Map<String, String>) obj;
-				usersMap.put("pedro", "1234");
-		    } else {
-		        usersMap = new HashMap<>();
-		    }
+	        usersMap = (Map<String, String>) obj;
+			usersMap.put("pedro", "1234");
 		} catch (IOException e) {
+			Logger.getLogger("Unable to find database or maybe does not exists.");
 		    usersMap = new HashMap<>();
 		} catch (ClassNotFoundException e){
 			Logger.getLogger("Unable to read content of database.");
+			usersMap = new HashMap<>();
 		}
 	}
 	
 	/**
-	 * Stops the AuthService before the Spring Application stops, saving the database
+	 * Stops the AuthService before the Spring Application ends, saving the database
 	 * to a binary file
+	 * @deprecated <a style="color: #E89B6C; display: inline;">
+	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
 	 */
 	@PreDestroy
+	@SuppressWarnings("unused")
+	@Deprecated(since = "1.2")
 	public static void stop(){
 		try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream("src/main/resources/database/database.bin"))) {
@@ -69,7 +78,8 @@ public class AuthService implements Serializable {
 	 * checking if the user passed as parameter is already registered
 	 * @param email The email to be checked
 	 * @param rawPassword The plain password to be checked
-	 * @return True if the user is already registered otherwise false
+	 * @return <a style="color: #E89B6C; display: inline;">True</a> if the user is already
+	 * registered otherwise <a style="color: #E89B6C; display: inline;">False</a>
 	 */
 	public static boolean authenticate(@NotNull String email, @NotNull String rawPassword){
 		try{
@@ -84,7 +94,8 @@ public class AuthService implements Serializable {
 	/**
 	 * Check if a user exists or not
 	 * @param email The user's email to be checked
-	 * @return True if the user exists otherwise false
+	 * @return <a style="color: #E89B6C; display: inline;">True</a> if the user exists
+	 * otherwise <a style="color: #E89B6C; display: inline;">False</a>
 	 */
 	public static boolean userExists(@NotNull String email){
 		return usersMap.get(email) != null;
