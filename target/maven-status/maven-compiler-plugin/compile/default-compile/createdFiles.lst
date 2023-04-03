@@ -1,7 +1,11 @@
 es/codeurjc/controllers/HomeController.class
-es/codeurjc/controllers/AuthController.class
+es/codeurjc/Application.class
+es/codeurjc/services/package-info.class
 es/codeurjc/services/SecurityService.class
 es/codeurjc/classes/User.class
-es/codeurjc/services/AuthService.class
-es/codeurjc/Application.class
 es/codeurjc/controllers/ErrorController.class
+es/codeurjc/classes/package-info.class
+es/codeurjc/package-info.class
+es/codeurjc/controllers/package-info.class
+es/codeurjc/controllers/AuthController.class
+es/codeurjc/services/AuthService.class

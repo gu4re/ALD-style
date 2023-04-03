@@ -1,8 +1,8 @@
 console.log('Script loaded correctly.');
 var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-var form = document.querySelector('#login-form');
+var form = document.querySelector('#forgotPasswd-form');
 console.log('form', form);
-var btn = form.querySelector('#login-button');
+var btn = form.querySelector('#forgotPasswd-button');
 var email = '';
 btn.addEventListener('click', (event) => {
     email = document.getElementById('email').value;
@@ -16,45 +16,31 @@ btn.addEventListener('click', (event) => {
     }
     console.log('click');
     event.preventDefault();
-    fetch('/auth/login', {
+    fetch('/auth/forgot', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
+            email: document.getElementById('email').value
         })
     })
     .then((response) => {
         console.log('response', response);
         if(response.ok) {
             Swal.fire(
-                'Login success!',
-                'Close this window to follow your session.',
+                'Send success!',
+                'Check your inbox and spam box of your mail and follow the steps to recover your password.',
                 'success'
             )
             // If the response is OK then go back to home with their session
-            window.location.href = '#home';
-            var loginButton = document.querySelector('[href="#login"]');
-            loginButton.innerHTML = 
-                    `<div class="dropdown">
-                      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-fill"></i> <span class="text-about">${email}</span>
-                      </a>
-                      <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#404">Profile</a></li>
-                        <hr class="dropdown-divider">
-                        <li><a class="dropdown-item" href="/">Sign out</a></li>
-                      </ul>
-                    </div>`;
-            loginButton.removeAttribute('href');           
+            window.location.href = '#login';
         } else if (response.status === 400){
             // If the response indicates a credential error, display an alert message
             Swal.fire({
               icon: 'warning',
               title: 'Oops...',
-              text: 'Wrong credentials',
+              text: 'A problem has occurred during sending the mail. Try again later!',
             })
         }
         else{
