@@ -1,8 +1,8 @@
 console.log('Script loaded correctly.');
 var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-var form = document.querySelector('#resetPasswd-form');
+var form = document.querySelector('#forgotPasswd-form');
 console.log('form', form);
-var btn = form.querySelector('#resetPasswd-button');
+var btn = form.querySelector('#forgotPasswd-button');
 var email = '';
 btn.addEventListener('click', (event) => {
     email = document.getElementById('email').value;

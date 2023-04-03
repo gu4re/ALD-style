@@ -45,7 +45,7 @@ Router.prototype = {
                       script.src = 'js/register.js?' + Date.now();
                       document.head.appendChild(script);
                     }
-                    else if (route.htmlName === 'resetPasswd.html'){
+                    else if (route.htmlName === 'forgotPasswd.html'){
                       var script = document.createElement('script');
                       script.src = 'js/forgot.js?' + Date.now();
                       document.head.appendChild(script);
