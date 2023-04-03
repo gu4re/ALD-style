@@ -2,6 +2,9 @@ package es.codeurjc.controllers.rest;
 
 import es.codeurjc.exceptions.UserNotFoundException;
 import es.codeurjc.services.AuthService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,11 +13,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.logging.Logger;
 
 /**
@@ -53,12 +61,20 @@ public class ForgotPasswordRestController {
 			if (!AuthService.userExists(jsonObject.getString("email"))){
 				throw new UserNotFoundException();
 			}
-			String resetPasswordLink = "https://localhost:8080/#resetPasswd";
-			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(jsonObject.getString("email"));
-			message.setFrom("dpg_2002@hotmail.com");
-			message.setSubject("Reset Password");
-			message.setText("Click in the following link to reset your password: " + resetPasswordLink);
+			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+			helper.setTo(jsonObject.getString("email"));
+			helper.setFrom(new InternetAddress("guare4business@gmail.com", "Zapatillas ALD"));
+			helper.setSubject("Reset Password");
+			String pathToMailHTML = "src/main/resources/static/html/mailFormat.html";
+			BufferedReader reader = new BufferedReader(new FileReader(pathToMailHTML));
+	        StringBuilder mailStringBuilder = new StringBuilder();
+	        String linea;
+	        while ((linea = reader.readLine()) != null) {
+	            mailStringBuilder.append(linea);
+	        }
+	        reader.close();
+			helper.setText(mailStringBuilder.toString(), true);
 			javaMailSender.send(message);
 			return ResponseEntity.ok().build();
 		}catch (JSONException e) {
@@ -67,7 +83,7 @@ public class ForgotPasswordRestController {
 		} catch (UserNotFoundException e){
 			Logger.getLogger("There's no user associated with that email");
 			return ResponseEntity.notFound().build();
-		} catch (MailException e){
+		} catch (MessagingException | IOException e){
 			Logger.getLogger("Error has occurred during sending the mail.");
 			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
