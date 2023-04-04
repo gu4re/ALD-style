@@ -13,6 +13,7 @@ btn.addEventListener('click', (event) => {
           icon: 'warning',
           title: 'Oops...',
           text: 'Invalid email format',
+          confirmButtonColor: '#0E5FA7'
        })
        return;
     }
@@ -22,6 +23,7 @@ btn.addEventListener('click', (event) => {
           icon: 'warning',
           title: 'Oops...',
           text: 'Password must have at least 8 characters',
+          confirmButtonColor: '#0E5FA7'
        })
        return;
     }
@@ -31,6 +33,7 @@ btn.addEventListener('click', (event) => {
           icon: 'warning',
           title: 'Oops...',
           text: 'Password fields must be the same',
+          confirmButtonColor: '#0E5FA7'
        })
        return;
     }
@@ -49,11 +52,12 @@ btn.addEventListener('click', (event) => {
     .then((response) => {
       console.log('response', response);
       if(response.ok) {
-        Swal.fire(
-            'Register success!',
-            'Close this window to follow your session.',
-            'success'
-        )
+        Swal.fire({
+            title: 'Register success!',
+            text: 'Close this window to follow your session.',
+            icon: 'success',
+            confirmButtonColor: '#0E5FA7'
+        });
         // If the response is OK then go back to home with their session
         window.location.href = '#home';
         var loginButton = document.querySelector('[href="#login"]');
@@ -75,6 +79,7 @@ btn.addEventListener('click', (event) => {
           icon: 'warning',
           title: 'Oops...',
           text: 'Invalid fields introduced.',
+          confirmButtonColor: '#0E5FA7'
         })
       }
       else{
@@ -82,6 +87,7 @@ btn.addEventListener('click', (event) => {
             icon: 'error',
             title: 'Internal server error!',
             text: 'Status code: ${response.status}',
+            confirmButtonColor: '#0E5FA7',
             footer: '<a href="#404">Contact support for more information.</a>'
           })
       }
@@ -92,6 +98,7 @@ btn.addEventListener('click', (event) => {
           icon: 'error',
           title: 'Internal server error!',
           text: 'Status code: ${response.status}',
+          confirmButtonColor: '#0E5FA7',
           footer: '<a href="#404">Contact support for more information.</a>'
       })
     });
