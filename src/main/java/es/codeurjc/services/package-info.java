@@ -6,6 +6,7 @@
  *  - Service that manage all about authenticate and serves the process of login
  *  and register of someone inside the Web Application</li>
 * <li><a style="color: #E89B6C; display: inline;">SecurityService</a> - Service that manage all about security</li>
+ * <li><a style="color: #E89B6C; display: inline;">ForgotService</a> - Service that manage all mapping about forgotPassword</li>
 * </ul>
 */
 package es.codeurjc.services;

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * to log in and register. It is a controller based on 'POST' method so 'GET'
  * is not allowed
  * @author gu4re
- * @version 1.4
+ * @version 1.5
  */
 @Controller
 @RequestMapping("/auth")
@@ -51,8 +51,8 @@ public class AuthController {
 		}
 		catch(JSONException e){
 			Logger.getLogger("Error has occurred during parsing JSON.");
+			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.notFound().build();
 	}
 	
 	/**
