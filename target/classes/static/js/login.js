@@ -11,6 +11,7 @@ btn.addEventListener('click', (event) => {
           icon: 'warning',
           title: 'Oops...',
           text: 'Invalid email format',
+          confirmButtonColor: '#0E5FA7'
        })
        return;
     }
@@ -29,11 +30,12 @@ btn.addEventListener('click', (event) => {
     .then((response) => {
         console.log('response', response);
         if(response.ok) {
-            Swal.fire(
-                'Login success!',
-                'Close this window to follow your session.',
-                'success'
-            )
+            Swal.fire({
+                title: 'Login success!',
+                text: 'Close this window to follow your session.',
+                icon: 'success',
+                confirmButtonColor: '#0E5FA7'
+            });
             // If the response is OK then go back to home with their session
             window.location.href = '#home';
             var loginButton = document.querySelector('[href="#login"]');
@@ -45,16 +47,33 @@ btn.addEventListener('click', (event) => {
                       <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#404">Profile</a></li>
                         <hr class="dropdown-divider">
-                        <li><a class="dropdown-item" href="/">Sign out</a></li>
+                        <li><a class="dropdown-item" id="sign-out">Sign out</a></li>
                       </ul>
                     </div>`;
-            loginButton.removeAttribute('href');           
+            loginButton.removeAttribute('href');
+            var signOutButton = loginButton.querySelector('#sign-out');
+            signOutButton.addEventListener('click', (event) => {
+                Swal.fire({
+                  title: 'Confirm Logout',
+                  text: "Are you sure you want to logout?",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#0E5FA7',
+                  cancelButtonColor: '#A5A79F',
+                  confirmButtonText: 'Yes, Logout'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = '/';
+                  }
+                })
+            });
         } else if (response.status === 400){
             // If the response indicates a credential error, display an alert message
             Swal.fire({
               icon: 'warning',
               title: 'Oops...',
               text: 'Wrong credentials',
+              confirmButtonColor: '#0E5FA7'
             })
         }
         else{
@@ -62,6 +81,7 @@ btn.addEventListener('click', (event) => {
               icon: 'error',
               title: 'Internal server error!',
               text: 'Status code: ${response.status}',
+              confirmButtonColor: '#0E5FA7',
               footer: '<a href="#404">Contact support for more information.</a>'
             })
         }
@@ -72,6 +92,7 @@ btn.addEventListener('click', (event) => {
               icon: 'error',
               title: 'Internal server error!',
               text: 'Status code: ${response.status}',
+              confirmButtonColor: '#0E5FA7',
               footer: '<a href="#404">Contact support for more information.</a>'
         })
     });
