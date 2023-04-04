@@ -2,27 +2,18 @@ package es.codeurjc.controllers.rest;
 
 import es.codeurjc.exceptions.UserNotFoundException;
 import es.codeurjc.services.AuthService;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+import es.codeurjc.services.MailService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.logging.Logger;
 
 /**
@@ -30,16 +21,20 @@ import java.util.logging.Logger;
  * to forgot and recovery the password. It is a controller based on 'POST' method so 'GET'
  * is not allowed
  * @author gu4re
- * @version 1.0
+ * @version 1.2
  */
 @RestController
 @RequestMapping("/auth")
 public class ForgotPasswordRestController {
 	/**
-	 * Private static field for javaMailSender that allow us to send an mail
+	 * Private static field for javaMailSender that allow us to send an email
 	 */
 	@Autowired
 	private JavaMailSender javaMailSender;
+	/**
+	 * Store the mail of the user that requested the forgot petition to use it in restore petition
+	 */
+	private String mailApplicant;
 	/**
 	 * Private constructor avoiding initialize of AuthController
 	 */
@@ -58,35 +53,39 @@ public class ForgotPasswordRestController {
 	public @NotNull ResponseEntity<Void> forgot(@RequestBody String jsonRequested){
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
-			if (!AuthService.userExists(jsonObject.getString("email"))){
+			this.mailApplicant = jsonObject.getString("email");
+			if (!AuthService.userExists(this.mailApplicant)){
 				throw new UserNotFoundException();
 			}
-			MimeMessage message = javaMailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, true);
-			helper.setTo(jsonObject.getString("email"));
-			helper.setFrom(new InternetAddress("guare4business@gmail.com", "Zapatillas ALD"));
-			helper.setSubject("Reset Password");
-			String pathToMailHTML = "src/main/resources/static/html/mailFormat.html";
-			BufferedReader reader = new BufferedReader(new FileReader(pathToMailHTML));
-	        StringBuilder mailStringBuilder = new StringBuilder();
-	        String linea;
-	        while ((linea = reader.readLine()) != null) {
-	            mailStringBuilder.append(linea);
-	        }
-	        reader.close();
-			helper.setText(mailStringBuilder.toString(), true);
-			javaMailSender.send(message);
-			return ResponseEntity.ok().build();
+			return MailService.send("Forgot Password", "guare4business@gmail.com",
+					(this.mailApplicant),
+					"src/main/resources/static/html/mailFormat.html", javaMailSender);
 		}catch (JSONException e) {
 			Logger.getLogger("Error has occurred during parsing JSON.");
 			return ResponseEntity.notFound().build();
-		} catch (UserNotFoundException e){
+		} catch (UserNotFoundException e) {
 			Logger.getLogger("There's no user associated with that email");
 			return ResponseEntity.notFound().build();
-		} catch (MessagingException | IOException e){
-			Logger.getLogger("Error has occurred during sending the mail.");
-			e.printStackTrace();
-			return ResponseEntity.badRequest().build();
+		}
+	}
+	
+	/**
+	 * Controls all mapping related to reset or change the password to a new one of the
+	 * user that made a previous forgot petition
+	 * @param jsonRequested The new password passed in JSON format
+	 * @return A ResponseEntity based of what happened in the sending
+	 * returning <a style="color: #E89B6C; display: inline;">200 OK</a> if all goes good,
+	 * <a style="color: #E89B6C; display: inline;">400 Bad Request</a> if not and
+	 * otherwise <a style="color: #E89B6C; display: inline;">404 Not Found</a> if any resource is not able
+	 */
+	@PostMapping("/reset")
+	public @NotNull ResponseEntity<Void> reset(@RequestBody String jsonRequested){
+		try{
+			JSONObject jsonObject = new JSONObject(jsonRequested);
+			return AuthService.changePassword(this.mailApplicant, jsonObject.getString("newpassword"));
+		} catch (JSONException e){
+			Logger.getLogger("Error has occurred during parsing JSON.");
+			return ResponseEntity.notFound().build();
 		}
 	}
 }

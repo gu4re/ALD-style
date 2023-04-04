@@ -1,6 +1,7 @@
 package es.codeurjc.services;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
@@ -111,6 +112,25 @@ public class AuthService implements Serializable {
 			usersMap.put(email, SecurityService.hashCode(rawPassword));
 		} catch (NoSuchAlgorithmException e){
 			Logger.getLogger("Failed hash function.");
+			addUser(email, rawPassword);
+		}
+	}
+	
+	/**
+	 * Changes the password of the user that has email passed as parameter
+	 * @param email the user's mail
+	 */
+	public static @NotNull ResponseEntity<Void> changePassword(@NotNull String email, @NotNull String newRawPassword){
+		try{
+			if (usersMap.put(email, SecurityService.hashCode(newRawPassword)) == null)
+				throw new NullPointerException();
+			return ResponseEntity.ok().build();
+		} catch (NoSuchAlgorithmException e){
+			Logger.getLogger("Failed hash function.");
+			return ResponseEntity.notFound().build();
+		} catch (NullPointerException e){
+			Logger.getLogger("No mapping found for that credentials.");
+			return ResponseEntity.badRequest().build();
 		}
 	}
 }

@@ -13,3 +13,4 @@ es/codeurjc/controllers/package-info.class
 es/codeurjc/controllers/AuthController.class
 es/codeurjc/services/AuthService.class
 es/codeurjc/controllers/rest/package-info.class
+es/codeurjc/services/MailService.class
