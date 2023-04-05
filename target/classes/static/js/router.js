@@ -55,6 +55,11 @@ Router.prototype = {
                       script.src = 'js/reset.js?' + Date.now();
                       document.head.appendChild(script);
                     }
+                    else if (route.htmlName === 'creditCard.html'){
+                      var script = document.createElement('script');
+                      script.src = 'js/payment.js?' + Date.now();
+                      document.head.appendChild(script);
+                    }
                     routeFound2 = true;
                     routeFound3 = true;
                     scope.goToRoute(route.htmlName, false);

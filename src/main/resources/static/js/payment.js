@@ -1,28 +1,27 @@
 console.log('Script loaded correctly.');
-var regex = /^\d+$/;
+var regex_numberCard = /^\d{4}\s\d{4}\s\d{4}\s\d{4}$/;
+var regex_cvv = /^\d{3}$/;
 var form = document.querySelector('#creditCard-form');
 console.log('form', form);
 var btn = form.querySelector('#credit-button');
 var card_number = '';
 var card_name = '';
 var cvv = '';
+var day = '';
+var month = '';
+var year = '';
 btn.addEventListener('click', (event) => {
     card_number = document.getElementById('number').value;
     card_name = document.getElementById('name').value;
     cvv = document.getElementById('cvv').value;
-    if (!regex.test(card_number.replace(/\s/g, ''))){
+    day = document.getElementById('day').value;
+    month = document.getElementById('month').value;
+    year = document.getElementById('year').value;
+    if (!regex_numberCard.test(card_number)){
        Swal.fire({
           icon: 'warning',
           title: 'Oops...',
-          text: 'Invalid card number format',
-          confirmButtonColor: '#0E5FA7'
-       })
-    }
-    if (card_number.length !== 16){
-       Swal.fire({
-          icon: 'warning',
-          title: 'Oops...',
-          text: 'Card number should have exactly 16 digits',
+          text: 'Invalid card number format or maybe\nshould have exactly 16 digits',
           confirmButtonColor: '#0E5FA7'
        })
        return;
@@ -36,20 +35,20 @@ btn.addEventListener('click', (event) => {
        })
        return;
     }
-    if (!regex.test(cvv.replace(/\s/g, ''))){
-       Swal.fire({
+    if (day === "Day" || month === "Month" || year === "Year"){
+         Swal.fire({
           icon: 'warning',
           title: 'Oops...',
-          text: 'Invalid CVV field format',
+          text: 'Select a valid expiration date',
           confirmButtonColor: '#0E5FA7'
        })
        return;
     }
-    if(cvv.length !== 3){
+    if (!regex_cvv.test(cvv)){
        Swal.fire({
           icon: 'warning',
           title: 'Oops...',
-          text: 'CVV field should have exactly 3 digit',
+          text: 'Invalid CVV field format or\nmaybe CVV field should have exactly 3 digit',
           confirmButtonColor: '#0E5FA7'
        })
        return;
