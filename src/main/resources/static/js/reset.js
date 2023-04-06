@@ -29,7 +29,7 @@ btn.addEventListener('click', (event) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        },g
+        },
         body: JSON.stringify({
             newpassword: document.getElementById('newpassword').value
         })

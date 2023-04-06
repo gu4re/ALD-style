@@ -1,10 +1,12 @@
 package es.codeurjc.services;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PreDestroy;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -15,7 +17,7 @@ import java.util.logging.Logger;
  * Service that manage all about authenticate and serves the process of login
  * and register of someone inside the Web Application
  * @author gu4re
- * @version 1.3
+ * @version 1.5
  */
 @Service
 public class AuthService implements Serializable {
@@ -39,9 +41,13 @@ public class AuthService implements Serializable {
 	 * process inside database (ClassNotFoundException) in
 	 * <a style="color: #E89B6C; display: inline;">both cases</a> the app will run with
 	 * a <a style="color: #E89B6C; display: inline;">new and empty database</a>
+	 * @deprecated <a style="color: #E89B6C; display: inline;">
+	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
 	 */
-	@SuppressWarnings(value = "unchecked")
-	public static void run(){
+	@EventListener
+	@SuppressWarnings(value = "unchecked, unused")
+	@Deprecated(since = "1.3")
+    public static void run(ContextRefreshedEvent event) {
 		try (ObjectInputStream ois = new ObjectInputStream(
 		        new FileInputStream("src/main/resources/database/database.bin"))) {
 		    Object obj = ois.readObject();
@@ -61,10 +67,10 @@ public class AuthService implements Serializable {
 	 * @deprecated <a style="color: #E89B6C; display: inline;">
 	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
 	 */
-	@PreDestroy
-	@SuppressWarnings("unused")
+	@SuppressWarnings(value = "unused")
 	@Deprecated(since = "1.2")
-	public static void stop(){
+	@EventListener
+	public static void stop(ContextClosedEvent event){
 		try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream("src/main/resources/database/database.bin"))) {
             oos.writeObject(usersMap);
