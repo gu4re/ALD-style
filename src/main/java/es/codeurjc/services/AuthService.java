@@ -46,7 +46,6 @@ public class AuthService implements Serializable {
 		        new FileInputStream("src/main/resources/database/database.bin"))) {
 		    Object obj = ois.readObject();
 	        usersMap = (Map<String, String>) obj;
-			usersMap.put("pedro", "1234");
 		} catch (IOException e) {
 			Logger.getLogger("Unable to find database or maybe does not exists.");
 		    usersMap = new HashMap<>();
