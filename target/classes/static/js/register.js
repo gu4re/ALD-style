@@ -78,15 +78,16 @@ btn.addEventListener('click', (event) => {
         Swal.fire({
           icon: 'warning',
           title: 'Oops...',
-          text: 'Invalid fields introduced.',
+          text: 'This user is already registered. Instead, log in. Status code: ' + response.status,
           confirmButtonColor: '#0E5FA7'
         })
+        window.location.href = '#login';
       }
       else{
           Swal.fire({
             icon: 'error',
             title: 'Internal server error!',
-            text: 'Status code: ${response.status}',
+            text: 'Status code: ' + response.status,
             confirmButtonColor: '#0E5FA7',
             footer: '<a href="#404">Contact support for more information.</a>'
           })
