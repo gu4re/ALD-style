@@ -54,31 +54,17 @@ btn.addEventListener('click', (event) => {
       if(response.ok) {
         Swal.fire({
             title: 'Register success!',
-            text: 'Close this window to follow your session.',
+            text: 'Please check your inbox to validate your user account',
             icon: 'success',
             confirmButtonColor: '#0E5FA7'
         });
-        // If the response is OK then go back to home with their session
         window.location.href = '#home';
-        var loginButton = document.querySelector('[href="#login"]');
-        loginButton.innerHTML = loginButton.innerHTML =
-                    `<div class="dropdown">
-                      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-fill"></i> <span class="text-about">${email}</span>
-                      </a>
-                      <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#404">Profile</a></li>
-                        <hr class="dropdown-divider">
-                        <li><a class="dropdown-item" href="/">Sign out</a></li>
-                      </ul>
-                    </div>`;
-        loginButton.removeAttribute('href');
       } else if (response.status === 400){
         // If the response indicates a credential error, display an alert message
         Swal.fire({
           icon: 'warning',
           title: 'Oops...',
-          text: 'This user is already registered. Instead, log in. Status code: ' + response.status,
+          text: 'This user is already registered. Instead, log in.',
           confirmButtonColor: '#0E5FA7'
         })
         window.location.href = '#login';
@@ -98,7 +84,7 @@ btn.addEventListener('click', (event) => {
       Swal.fire({
           icon: 'error',
           title: 'Internal server error!',
-          text: 'Status code: ${response.status}',
+          text: 'Status code: ' + response.status,
           confirmButtonColor: '#0E5FA7',
           footer: '<a href="#404">Contact support for more information.</a>'
       })

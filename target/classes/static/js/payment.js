@@ -48,7 +48,7 @@ btn.addEventListener('click', (event) => {
        Swal.fire({
           icon: 'warning',
           title: 'Oops...',
-          text: 'Invalid CVV field format or\nmaybe CVV field should have exactly 3 digit',
+          text: 'Invalid CVV field format or maybe CVV field should have exactly 3 digit',
           confirmButtonColor: '#0E5FA7'
        })
        return;

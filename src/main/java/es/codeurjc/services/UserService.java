@@ -17,10 +17,10 @@ import java.util.logging.Logger;
  * Service that manage all about authenticate and serves the process of login
  * and register of someone inside the Web Application
  * @author gu4re
- * @version 1.5
+ * @version 1.6
  */
 @Service
-public class AuthService implements Serializable {
+public class UserService implements Serializable {
 	/**
 	 * Fake database that controls the users registered in the App
 	 * and maps the email of the User (Key) with the password previously hashed (Value)
@@ -30,7 +30,7 @@ public class AuthService implements Serializable {
 	/**
 	 * Private constructor avoiding initialize of Service
 	 */
-	private AuthService(){}
+	private UserService(){}
 	
 	/**
 	 * Starts the AuthService connecting the database to the Service.<br><br>

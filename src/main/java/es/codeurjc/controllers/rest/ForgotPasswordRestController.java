@@ -1,7 +1,7 @@
 package es.codeurjc.controllers.rest;
 
 import es.codeurjc.exceptions.UserNotFoundException;
-import es.codeurjc.services.AuthService;
+import es.codeurjc.services.UserService;
 import es.codeurjc.services.MailService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -21,13 +21,13 @@ import java.util.logging.Logger;
  * to forgot and recovery the password. It is a controller based on 'POST' method so 'GET'
  * is not allowed
  * @author gu4re
- * @version 1.2
+ * @version 1.3
  */
 @RestController
 @RequestMapping("/auth")
 public class ForgotPasswordRestController {
 	/**
-	 * Private static field for javaMailSender that allow us to send an email
+	 * Private field for javaMailSender that allow us to send an email
 	 */
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -54,12 +54,13 @@ public class ForgotPasswordRestController {
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
 			this.mailApplicant = jsonObject.getString("email");
-			if (!AuthService.userExists(this.mailApplicant)){
+			if (!UserService.userExists(this.mailApplicant)){
+				this.mailApplicant = "";
 				throw new UserNotFoundException();
 			}
 			return MailService.send("Forgot Password", "guare4business@gmail.com",
 					(this.mailApplicant),
-					"src/main/resources/static/html/mailFormat.html", javaMailSender);
+					"src/main/resources/static/html/forgotMailFormat.html", javaMailSender);
 		}catch (JSONException e) {
 			Logger.getLogger("Error has occurred during parsing JSON.");
 			return ResponseEntity.notFound().build();
@@ -82,7 +83,7 @@ public class ForgotPasswordRestController {
 	public @NotNull ResponseEntity<Void> reset(@RequestBody String jsonRequested){
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
-			return AuthService.changePassword(this.mailApplicant, jsonObject.getString("newpassword"));
+			return UserService.changePassword(this.mailApplicant, jsonObject.getString("newpassword"));
 		} catch (JSONException e){
 			Logger.getLogger("Error has occurred during parsing JSON.");
 			return ResponseEntity.notFound().build();

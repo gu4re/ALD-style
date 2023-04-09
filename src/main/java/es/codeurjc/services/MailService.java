@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * Service that manage all mapping about mailService
  * specially used in forgotPassword
  * @author gu4re
- * @version 1.0
+ * @version 1.1
  */
 @Service
 public class MailService {
@@ -53,9 +53,8 @@ public class MailService {
 	 * @param pathBodyHTML The path where's the body style
 	 * @param javaMailSender the javaMailSender that allows the sending
 	 * @return A ResponseEntity based of what happened in the Service
-	 * returning <a style="color: #E89B6C; display: inline;">200 OK</a> if all goes good,
-	 * <a style="color: #E89B6C; display: inline;">400 Bad Request</a> if not and
-	 * otherwise <a style="color: #E89B6C; display: inline;">404 Not Found</a> if any resource is not able
+	 * returning <a style="color: #E89B6C; display: inline;">200 OK</a> if all goes good
+	 * and otherwise <a style="color: #E89B6C; display: inline;">404 Not Found</a> if any resource is not able
 	 */
 	public static @NotNull ResponseEntity<Void> send(String subject, String mailFrom, String mailTo,
 	                                                 String pathBodyHTML, @NotNull JavaMailSender javaMailSender){

@@ -49,14 +49,14 @@ btn.addEventListener('click', (event) => {
             Swal.fire({
               icon: 'warning',
               title: 'Oops...',
-              text: 'A problem has occurred changing the password. Try again later!',
+              text: 'A problem has occurred changing the password. Try again later or make a new request!',
             })
         }
         else{
             Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ${response.status}',
+              text: 'Status code: ' + response.status,
               footer: '<a href="#404">Contact support for more information.</a>'
             })
         }
@@ -66,7 +66,7 @@ btn.addEventListener('click', (event) => {
         Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ${response.status}',
+              text: 'Status code: ' + response.status,
               footer: '<a href="#404">Contact support for more information.</a>'
         })
     });

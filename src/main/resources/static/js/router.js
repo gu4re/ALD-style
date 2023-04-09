@@ -60,6 +60,11 @@ Router.prototype = {
                       script.src = 'js/payment.js?' + Date.now();
                       document.head.appendChild(script);
                     }
+                    else if (route.name === 'validate') {
+                        var script = document.createElement('script');
+                        script.src = 'js/validate.js?' + Date.now();
+                        document.head.appendChild(script);
+                    }
                     routeFound2 = true;
                     routeFound3 = true;
                     scope.goToRoute(route.htmlName, false);
