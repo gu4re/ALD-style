@@ -68,9 +68,11 @@ Router.prototype = {
                     else if ((route.htmlName === 'home.html') || (route.htmlName === 'popularItems.html')
                     || (route.htmlName === 'newArrivals.html') || (route.htmlName === 'allProducts.html')
                     || (route.htmlName === 'sales.html')){
-                        var script = document.createElement('script');
-                        script.src = 'js/addToCart.js?' + Date.now();
-                        document.head.appendChild(script);
+                        setTimeout(function() {
+                          var script = document.createElement('script');
+                          script.src = 'js/addToCart.js?' + Date.now();
+                          document.head.appendChild(script);
+                        }, 1000);
                     }
                     else if (route.htmlName === 'cart.html') {
                         var script = document.createElement('script');
