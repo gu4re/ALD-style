@@ -1,10 +1,12 @@
 package es.codeurjc.services;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PreDestroy;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -15,10 +17,10 @@ import java.util.logging.Logger;
  * Service that manage all about authenticate and serves the process of login
  * and register of someone inside the Web Application
  * @author gu4re
- * @version 1.3
+ * @version 1.7
  */
 @Service
-public class AuthService implements Serializable {
+public class UserService implements Serializable {
 	/**
 	 * Fake database that controls the users registered in the App
 	 * and maps the email of the User (Key) with the password previously hashed (Value)
@@ -28,10 +30,10 @@ public class AuthService implements Serializable {
 	/**
 	 * Private constructor avoiding initialize of Service
 	 */
-	private AuthService(){}
+	private UserService(){}
 	
 	/**
-	 * Starts the AuthService connecting the database to the Service.<br><br>
+	 * Starts the UserService connecting the database to the Service.<br><br>
 	 * An <a style="color: #ff6666; display: inline;"><b>error</b></a> can occur
 	 * <a style="color: #E89B6C; display: inline;">if the database is not found</a>
 	 * (IOException) <a style="color: #E89B6C; display: inline;">or</a> reading
@@ -39,14 +41,17 @@ public class AuthService implements Serializable {
 	 * process inside database (ClassNotFoundException) in
 	 * <a style="color: #E89B6C; display: inline;">both cases</a> the app will run with
 	 * a <a style="color: #E89B6C; display: inline;">new and empty database</a>
+	 * @deprecated <a style="color: #E89B6C; display: inline;">
+	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
 	 */
-	@SuppressWarnings(value = "unchecked")
-	public static void run(){
+	@EventListener
+	@SuppressWarnings(value = "unchecked, unused")
+	@Deprecated(since = "1.3")
+    public static void run(ContextRefreshedEvent event) {
 		try (ObjectInputStream ois = new ObjectInputStream(
 		        new FileInputStream("src/main/resources/database/database.bin"))) {
 		    Object obj = ois.readObject();
 	        usersMap = (Map<String, String>) obj;
-			usersMap.put("pedro", "1234");
 		} catch (IOException e) {
 			Logger.getLogger("Unable to find database or maybe does not exists.");
 		    usersMap = new HashMap<>();
@@ -57,15 +62,15 @@ public class AuthService implements Serializable {
 	}
 	
 	/**
-	 * Stops the AuthService before the Spring Application ends, saving the database
+	 * Stops the UserService before the Spring Application ends, saving the database
 	 * to a binary file
 	 * @deprecated <a style="color: #E89B6C; display: inline;">
 	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
 	 */
-	@PreDestroy
-	@SuppressWarnings("unused")
+	@SuppressWarnings(value = "unused")
 	@Deprecated(since = "1.2")
-	public static void stop(){
+	@EventListener
+	public static void stop(ContextClosedEvent event){
 		try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream("src/main/resources/database/database.bin"))) {
             oos.writeObject(usersMap);
@@ -119,6 +124,10 @@ public class AuthService implements Serializable {
 	/**
 	 * Changes the password of the user that has email passed as parameter
 	 * @param email the user's mail
+	 * @return A ResponseEntity based of what happened in the Service
+	 * returning <a style="color: #E89B6C; display: inline;">200 OK</a> if all goes good,
+	 * <a style="color: #E89B6C; display: inline;">400 Bad Request</a> if not and
+	 * otherwise <a style="color: #E89B6C; display: inline;">404 Not Found</a> if any resource is not able
 	 */
 	public static @NotNull ResponseEntity<Void> changePassword(@NotNull String email, @NotNull String newRawPassword){
 		try{
