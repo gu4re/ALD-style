@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * Service that manage all about authenticate and serves the process of login
  * and register of someone inside the Web Application
  * @author gu4re
- * @version 1.6
+ * @version 1.7
  */
 @Service
 public class UserService implements Serializable {
@@ -33,7 +33,7 @@ public class UserService implements Serializable {
 	private UserService(){}
 	
 	/**
-	 * Starts the AuthService connecting the database to the Service.<br><br>
+	 * Starts the UserService connecting the database to the Service.<br><br>
 	 * An <a style="color: #ff6666; display: inline;"><b>error</b></a> can occur
 	 * <a style="color: #E89B6C; display: inline;">if the database is not found</a>
 	 * (IOException) <a style="color: #E89B6C; display: inline;">or</a> reading
@@ -62,7 +62,7 @@ public class UserService implements Serializable {
 	}
 	
 	/**
-	 * Stops the AuthService before the Spring Application ends, saving the database
+	 * Stops the UserService before the Spring Application ends, saving the database
 	 * to a binary file
 	 * @deprecated <a style="color: #E89B6C; display: inline;">
 	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it

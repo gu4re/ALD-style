@@ -65,6 +65,13 @@ Router.prototype = {
                         script.src = 'js/validate.js?' + Date.now();
                         document.head.appendChild(script);
                     }
+                    else if ((route.htmlName === 'home.html') || (route.htmlName === 'popularItems.html')
+                    || (route.htmlName === 'newArrivals.html') || (route.htmlName === 'allProducts.html')
+                    || (route.htmlName === 'sales.html')){
+                        var script = document.createElement('script');
+                        script.src = 'js/addToCart.js?' + Date.now();
+                        document.head.appendChild(script);
+                    }
                     routeFound2 = true;
                     routeFound3 = true;
                     scope.goToRoute(route.htmlName, false);

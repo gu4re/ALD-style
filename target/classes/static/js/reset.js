@@ -49,7 +49,7 @@ btn.addEventListener('click', (event) => {
             Swal.fire({
               icon: 'warning',
               title: 'Oops...',
-              text: 'A problem has occurred changing the password. Try again later or make a new request!',
+              text: 'A problem has occurred changing the password. Does not exist a user with that email',
             })
         }
         else{
