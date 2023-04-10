@@ -1,13 +1,12 @@
 package es.codeurjc.controllers;
 
-import es.codeurjc.services.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Controls the mapping of the home page
  * @author gu4re
- * @version 1.1
+ * @version 1.2
  */
 @Controller
 public class HomeController {
@@ -22,7 +21,6 @@ public class HomeController {
 	 */
 	@GetMapping("/")
 	public String getIndex() {
-		AuthService.run();
 		return "index.html";
 	}
 }

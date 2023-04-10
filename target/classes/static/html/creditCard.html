@@ -5,13 +5,13 @@
     <link rel="stylesheet" type="text/css" href="css/creditCard.css">
   </head>
   <body>
-    <form method="post" id="creditCard-form" action="">
+    <form method="post" id="creditCard-form">
       <h1 class="lead fw-bolder text-dark-50 mb-0 display-7">Payment data</h1>
       <label for="number">Credit card number</label>
       <input type="text" id="number" name="number" required>
       <label for="name">Credit card name</label>
       <input type="text" id="name" name="name" required>
-      <label for="date">Expiration date</label>
+      <label>Expiration date</label>
       <select id="day" name="day">
         <option selected disabled>Day</option>
         <option value="1">1</option>
@@ -79,8 +79,8 @@
       <br>
       <br>
       <label for="cvv">CVV</label>
-      <input type="text" id="cvv" name="cvv" required style="width: 50px">
-      <button id="credit-button" type="button"><a href="#404.html" style="color: white; text-decoration: none;">Add your card</a></button>
+      <input type="text" id="cvv" name="cvv" required>
+      <button id="credit-button" type="button">Add your card</button>
     </form>
   </body>
 </html>

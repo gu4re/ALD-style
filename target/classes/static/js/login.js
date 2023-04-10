@@ -80,7 +80,7 @@ btn.addEventListener('click', (event) => {
             Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ${response.status}',
+              text: 'Status code: ' + response.status,
               confirmButtonColor: '#0E5FA7',
               footer: '<a href="#404">Contact support for more information.</a>'
             })
@@ -91,7 +91,7 @@ btn.addEventListener('click', (event) => {
         Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ${response.status}',
+              text: 'Status code: ' + response.status,
               confirmButtonColor: '#0E5FA7',
               footer: '<a href="#404">Contact support for more information.</a>'
         })
