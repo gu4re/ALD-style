@@ -1,10 +1,19 @@
 console.log('Script loaded successfully');
 var buttons = document.querySelectorAll('[id^="atc_"]');
 var size = '';
-var prizeContainer = '';
-let prize = '';
+var loginButton = document.querySelector('#home-login-button');
 buttons.forEach((button) => {
   button.addEventListener('click', () => {
+  console.log('login text', loginButton.textContent.trim());
+    if (loginButton.textContent.trim() === 'Log in'){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops...',
+          text: 'Please log in to use this functionality',
+        })
+        window.location.href = '#login';
+        return;
+    }
     var container = button.closest('[id^="adm_"]');
     size = container.querySelector('[id^="ss_"]').value;
     if (size === 'Select size'){
@@ -15,15 +24,6 @@ buttons.forEach((button) => {
         })
         return;
     }
-    prizeContainer = container.querySelector('[id^="p_"]');
-    console.log('prizeContainer', prizeContainer);
-    if (prizeContainer.children.length > 0){
-        prize = prizeContainer.textContent
-        .replace(prizeContainer.querySelector("span").textContent, '');
-        console.log('prize after span', prize);
-    }
-    prize = prize.replace('$', '');
-    console.log('prize after all', prize);
     fetch('/cart/add', {
       method: 'POST',
         headers: {
@@ -31,7 +31,7 @@ buttons.forEach((button) => {
         },
         body: JSON.stringify({
             name: container.querySelector('[id^="name_"]').textContent,
-            prize: prize,
+            prize: container.querySelector('[id^="p_"]').textContent.replace('$', ''),
             size: size
         })
     })

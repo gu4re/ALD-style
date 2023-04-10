@@ -91,6 +91,11 @@ Router.prototype = {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i];
                 if(route.default) {
+                    setTimeout(function() {
+                      var script = document.createElement('script');
+                      script.src = 'js/addToCart.js?' + Date.now();
+                      document.head.appendChild(script);
+                    }, 1500);
                     scope.goToRoute(route.htmlName, routeFound3);
                 }
             }

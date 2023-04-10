@@ -1,8 +1,19 @@
 console.log('Script loaded successfully');
 var buttons = document.querySelectorAll('[id^="atc_"]');
 var size = '';
+var loginButton = document.querySelector('#home-login-button');
 buttons.forEach((button) => {
   button.addEventListener('click', () => {
+  console.log('login text', loginButton.textContent.trim());
+    if (loginButton.textContent.trim() === 'Log in'){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops...',
+          text: 'Please log in to use this functionality',
+        })
+        window.location.href = '#login';
+        return;
+    }
     var container = button.closest('[id^="adm_"]');
     size = container.querySelector('[id^="ss_"]').value;
     if (size === 'Select size'){
