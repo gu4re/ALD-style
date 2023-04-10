@@ -9,8 +9,6 @@ fetch('/auth/validate', {
             'Now, you can log into your account',
             'success'
         )
-        // If the response is OK then go back to home with their session
-        window.location.href = '#login';
     }
     else{
         Swal.fire({

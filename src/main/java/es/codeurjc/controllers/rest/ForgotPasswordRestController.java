@@ -9,10 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
@@ -79,7 +76,7 @@ public class ForgotPasswordRestController {
 	 * <a style="color: #E89B6C; display: inline;">400 Bad Request</a> if not and
 	 * otherwise <a style="color: #E89B6C; display: inline;">404 Not Found</a> if any resource is not able
 	 */
-	@PostMapping("/reset")
+	@PutMapping("/reset")
 	public @NotNull ResponseEntity<Void> reset(@RequestBody String jsonRequested){
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);

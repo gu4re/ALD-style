@@ -124,6 +124,10 @@ public class UserService implements Serializable {
 	/**
 	 * Changes the password of the user that has email passed as parameter
 	 * @param email the user's mail
+	 * @return A ResponseEntity based of what happened in the Service
+	 * returning <a style="color: #E89B6C; display: inline;">200 OK</a> if all goes good,
+	 * <a style="color: #E89B6C; display: inline;">400 Bad Request</a> if not and
+	 * otherwise <a style="color: #E89B6C; display: inline;">404 Not Found</a> if any resource is not able
 	 */
 	public static @NotNull ResponseEntity<Void> changePassword(@NotNull String email, @NotNull String newRawPassword){
 		try{

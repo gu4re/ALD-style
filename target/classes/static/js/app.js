@@ -16,7 +16,7 @@
             new Route('creditCard', 'creditCard.html'),
             new Route('forgotPasswd', 'forgotPasswd.html'),
             new Route('resetPasswd', 'resetPasswd.html'),
-            new Route('validate', 'home.html')
+            new Route('validate', 'login.html')
         ]);
     }
     init();

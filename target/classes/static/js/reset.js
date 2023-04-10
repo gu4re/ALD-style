@@ -26,7 +26,7 @@ btn.addEventListener('click', (event) => {
     console.log('click');
     event.preventDefault();
     fetch('/auth/reset', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },

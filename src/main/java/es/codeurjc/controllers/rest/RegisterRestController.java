@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
  * to register and validate the user account. It is a controller based on 'POST' method so 'GET'
  * is not allowed
  * @author gu4re
- * @version 1.1
+ * @version 1.2
  */
 @RestController
 @RequestMapping("/auth")
@@ -30,9 +31,10 @@ public class RegisterRestController {
 	
 	/**
 	 * Store the entry of the user that requested the register petition to use it in validation request,
-	 * so it can be sent to the database
+	 * so it can be sent to the database. The password is saved in a char[] because it is a mutable object
+	 * that can't leave data in memory after being deleted, in difference with String object
 	 */
-	private Map.Entry<String, String> userApplicant;
+	private Map.Entry<String, char[]> userApplicant;
 	
 	/**
 	 * Private constructor avoiding initialize of RegisterRestController
@@ -57,7 +59,7 @@ public class RegisterRestController {
 			// Check if already exists or not and act in consequence
 			if (UserService.userExists(jsonObject.getString("email")))
 				return ResponseEntity.badRequest().build();
-			userApplicant = Map.entry(jsonObject.getString("email"), jsonObject.getString("password"));
+			userApplicant = Map.entry(jsonObject.getString("email"), jsonObject.getString("password").toCharArray());
 			return MailService.send("Validate Account", "guare4business@gmail.com",
 					(this.userApplicant.getKey()),
 					"src/main/resources/static/html/forgotMailFormat.html", javaMailSender);
@@ -73,6 +75,9 @@ public class RegisterRestController {
 	 */
 	@PostMapping("/validate")
 	public void validate(){
-		UserService.addUser(this.userApplicant.getKey(), this.userApplicant.getValue());
+		UserService.addUser(this.userApplicant.getKey(), Arrays.toString(this.userApplicant.getValue()));
+		// Security measures for temporal password saved in userApplicant attribute
+		this.userApplicant.setValue(new char[]{Character.MIN_VALUE});
+		this.userApplicant = null;
 	}
 }

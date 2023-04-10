@@ -54,7 +54,7 @@ btn.addEventListener('click', (event) => {
       if(response.ok) {
         Swal.fire({
             title: 'Register success!',
-            text: 'Please check your inbox to validate your user account',
+            text: 'Please check your inbox and spam box to validate your user account',
             icon: 'success',
             confirmButtonColor: '#0E5FA7'
         });
