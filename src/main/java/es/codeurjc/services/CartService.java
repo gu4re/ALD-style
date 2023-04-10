@@ -1,7 +1,12 @@
 package es.codeurjc.services;
 
 import es.codeurjc.classes.Shoes;
+import es.codeurjc.exceptions.UnsupportedExportException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -17,7 +22,7 @@ import java.util.logging.Logger;
  * Service that manage all mapping about CartService
  * specially used in cart functions like add and show
  * @author gu4re
- * @version 1.1
+ * @version 1.3
  */
 @Service
 public class CartService implements Serializable {
@@ -26,7 +31,12 @@ public class CartService implements Serializable {
 	 * and maps the name of the product (Key) with a Java Object called
 	 * Shoes that contains all info about it (Value)
 	 */
-	private static Map<String, Shoes> shoesMap;
+	private static Map<Shoes, Integer> shoesMap;
+	
+	/**
+	 * The max stock each pair of Shoes has
+	 */
+	private static final int STOCK = 3;
 	
 	/**
 	 * Private constructor avoiding initialize of Service
@@ -34,60 +44,40 @@ public class CartService implements Serializable {
 	private CartService(){}
 	
 	/**
-	 * Starts the CartService connecting the database to the Service.<br><br>
-	 * An <a style="color: #ff6666; display: inline;"><b>error</b></a> can occur
-	 * <a style="color: #E89B6C; display: inline;">if the database is not found</a>
-	 * (IOException) <a style="color: #E89B6C; display: inline;">or</a> reading
-	 * <a style="color: #E89B6C; display: inline;">casting fails</a> during deserialize
-	 * process inside database (ClassNotFoundException) in
-	 * <a style="color: #E89B6C; display: inline;">both cases</a> the app will run with
-	 * a <a style="color: #E89B6C; display: inline;">new and empty database</a>
+	 * Starts the CartService creating the database of the Service.<br><br>
 	 * @deprecated <a style="color: #E89B6C; display: inline;">
 	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
 	 */
 	@EventListener
-	@SuppressWarnings(value = "unchecked, unused")
-	@Deprecated(since = "1.0")
+	@SuppressWarnings(value = "unused")
+	@Deprecated(since = "1.3")
     public static void run(ContextRefreshedEvent event) {
-		try (ObjectInputStream ois = new ObjectInputStream(
-		        new FileInputStream("src/main/resources/database/shoes_database.bin"))) {
-		    Object obj = ois.readObject();
-	        shoesMap = (Map<String, Shoes>) obj;
-		} catch (IOException e) {
-			Logger.getLogger("Unable to find database or maybe does not exists.");
-		    shoesMap = new HashMap<>();
-		} catch (ClassNotFoundException e){
-			Logger.getLogger("Unable to read content of database.");
-			shoesMap = new HashMap<>();
-		}
+		shoesMap = new HashMap<>();
 	}
 	
 	/**
-	 * Stops the CartService before the Spring Application ends, saving the shoes database
-	 * to a binary file
+	 * Stops the CartService before the Spring Application ends, clearing the shoes database
 	 * @deprecated <a style="color: #E89B6C; display: inline;">
 	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
 	 */
 	@SuppressWarnings(value = "unused")
-	@Deprecated(since = "1.0")
+	@Deprecated(since = "1.3")
 	@EventListener
 	public static void stop(ContextClosedEvent event){
-		try (ObjectOutputStream oos = new ObjectOutputStream(
-                new FileOutputStream("src/main/resources/database/shoes_database.bin"))) {
-            oos.writeObject(shoesMap);
-        } catch (IOException e) {
-            Logger.getLogger("Unable to reach file to write on.");
-        }
+		shoesMap.clear();
 	}
 	
 	/**
-	 * Check if a pair of shoes is already inside the cart
+	 * Check if a pair of shoes exceeds the maximum of quantity inside cart
 	 * @param name the name of the pair of shoes
+	 * @param price the price of the pair of shoes
+	 * @param size the size of the pair of shoes
 	 * @return <a style="color: #E89B6C; display: inline;">True</a> if the pair of shoes exists
 	 * otherwise <a style="color: #E89B6C; display: inline;">False</a>
 	 */
-	public static boolean shoesExists(@NotNull String name){
-		return shoesMap.get(name) != null;
+	public static boolean maxQuantity(String name, float price, int size){
+		Shoes shoes = new Shoes(name, price, size);
+		return shoesMap.containsKey(shoes) && shoesMap.get(shoes) > STOCK;
 	}
 	
 	/**
@@ -97,14 +87,35 @@ public class CartService implements Serializable {
 	 * @param size the size of the pair of shoes
 	 */
 	public static void addToCart(String name, float price, int size){
-		shoesMap.put(name, new Shoes(name, price, size));
+		Shoes shoes = new Shoes(name, price, size);
+		if (shoesMap.containsKey(shoes))
+			shoesMap.put(shoes, shoesMap.get(shoes) + 1);
+		else
+			shoesMap.put(shoes, 1);
 	}
 	
 	/**
-	 * Getter method for the Shoes database needed to return the database to the frontend
-	 * @return the Shoes database
+	 * Export the database in JSONArray form to give it to the frontend
+	 * @return the Shoes database in JSONArray format
+	 * @throws UnsupportedExportException if it was unable to convert the database to JSONArray
 	 */
-	public static Map<String, Shoes> getShoesMap(){
-		return shoesMap;
+	public static @NotNull JSONArray export() throws UnsupportedExportException {
+		try{
+			JSONArray jsonArray = new JSONArray();
+			for (Map.Entry<Shoes, Integer> entry: shoesMap.entrySet()){
+				Shoes shoes = entry.getKey();
+				Integer quantity = entry.getValue();
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("name", shoes.getName());
+				jsonObject.put("price", shoes.getPrice());
+				jsonObject.put("size", shoes.getSize());
+				jsonObject.put("quantity", quantity);
+				jsonArray.put(jsonObject);
+			}
+			return jsonArray;
+		} catch (JSONException e){
+			Logger.getLogger("Error has occurred during creating JSONArray.");
+			throw new UnsupportedExportException();
+		}
 	}
 }

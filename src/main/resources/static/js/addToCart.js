@@ -1,4 +1,4 @@
-console.log('patata');
+console.log('Script loaded successfully');
 var buttons = document.querySelectorAll('[id^="atc_"]');
 var size = '';
 buttons.forEach((button) => {
@@ -43,7 +43,7 @@ buttons.forEach((button) => {
             Swal.fire({
               icon: 'warning',
               title: 'Oops...',
-              text: 'A problem has occurred during adding to cart. Try it later!',
+              text: 'Out of stock. Maximum of 3 units exceeded',
             })
         }
         else{
@@ -60,7 +60,7 @@ buttons.forEach((button) => {
         Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ' + response.status,
+              text: 'Message: ' + error.message,
               footer: '<a href="#404">Contact support for more information.</a>'
         });
     });

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * Service that manage all about authenticate and serves the process of login
  * and register of someone inside the Web Application
  * @author gu4re
- * @version 1.7
+ * @version 1.8
  */
 @Service
 public class UserService implements Serializable {
@@ -74,6 +74,7 @@ public class UserService implements Serializable {
 		try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream("src/main/resources/database/database.bin"))) {
             oos.writeObject(usersMap);
+			usersMap.clear();
         } catch (IOException e) {
             Logger.getLogger("Unable to reach file to write on.");
         }

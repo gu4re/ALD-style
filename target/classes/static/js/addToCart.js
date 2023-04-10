@@ -1,6 +1,8 @@
-console.log('patata');
+console.log('Script loaded successfully');
 var buttons = document.querySelectorAll('[id^="atc_"]');
 var size = '';
+var prizeContainer = '';
+let prize = '';
 buttons.forEach((button) => {
   button.addEventListener('click', () => {
     var container = button.closest('[id^="adm_"]');
@@ -13,6 +15,15 @@ buttons.forEach((button) => {
         })
         return;
     }
+    prizeContainer = container.querySelector('[id^="p_"]');
+    console.log('prizeContainer', prizeContainer);
+    if (prizeContainer.children.length > 0){
+        prize = prizeContainer.textContent
+        .replace(prizeContainer.querySelector("span").textContent, '');
+        console.log('prize after span', prize);
+    }
+    prize = prize.replace('$', '');
+    console.log('prize after all', prize);
     fetch('/cart/add', {
       method: 'POST',
         headers: {
@@ -20,7 +31,7 @@ buttons.forEach((button) => {
         },
         body: JSON.stringify({
             name: container.querySelector('[id^="name_"]').textContent,
-            prize: container.querySelector('[id^="p_"]').textContent.replace('$', ''),
+            prize: prize,
             size: size
         })
     })
@@ -43,7 +54,7 @@ buttons.forEach((button) => {
             Swal.fire({
               icon: 'warning',
               title: 'Oops...',
-              text: 'A problem has occurred during adding to cart. Try it later!',
+              text: 'Out of stock. Maximum of 3 units exceeded',
             })
         }
         else{
@@ -60,7 +71,7 @@ buttons.forEach((button) => {
         Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ' + response.status,
+              text: 'Message: ' + error.message,
               footer: '<a href="#404">Contact support for more information.</a>'
         });
     });

@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * to register and validate the user account. It is a controller based on 'POST' method so 'GET'
  * is not allowed
  * @author gu4re
- * @version 1.2
+ * @version 1.3
  */
 @RestController
 @RequestMapping("/auth")
@@ -62,7 +62,7 @@ public class RegisterRestController {
 			userApplicant = Map.entry(jsonObject.getString("email"), jsonObject.getString("password").toCharArray());
 			return MailService.send("Validate Account", "guare4business@gmail.com",
 					(this.userApplicant.getKey()),
-					"src/main/resources/static/html/forgotMailFormat.html", javaMailSender);
+					"src/main/resources/static/html/validateMailFormat.html", javaMailSender);
 		} catch(JSONException e) {
 			Logger.getLogger("Error has occurred during parsing JSON.");
 			return ResponseEntity.notFound().build();

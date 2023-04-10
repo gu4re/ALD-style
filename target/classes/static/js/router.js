@@ -72,7 +72,7 @@ Router.prototype = {
                           var script = document.createElement('script');
                           script.src = 'js/addToCart.js?' + Date.now();
                           document.head.appendChild(script);
-                        }, 1000);
+                        }, 1500);
                     }
                     else if (route.htmlName === 'cart.html') {
                         var script = document.createElement('script');
