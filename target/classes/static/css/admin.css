@@ -14,6 +14,7 @@ h2 {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 600px;
 }
 
 #admin-models {
@@ -23,6 +24,7 @@ h2 {
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 600px;
 }
 
 #admin-documentation {
@@ -133,5 +135,6 @@ input[type="password"] {
   #admin-button-exit {
     margin-right: 10px;
   }
+
   
 
