@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin | Zapatillas ALD</title>
+    <link href="css/admin.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1 id="title">Admin panel</h1>
+    <br>
+    <br>
+    <br>
+    <div id="divg">
+    <button id="admin-button-exit">< Back</button>
+    <div id="left_div">
+    <h1>Users</h1>
+    <br>
+    
+    <form method="post" id="admin-form">
+      <h2>Add</h2>
+      <input type="text" id="addmail" placeholder="Mail"></input>
+      <input type="password" id="addpassword" placeholder="Password"></input>
+
+      <button id="admin-button-adduser">Confirm</button>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <h2>Delete</h2>
+      <input type="text" id="deletemail" placeholder="Mail"></input>
+
+      <button id="admin-button-deleteuser">Confirm</button>
+      
+    </form>
+  </div>
+  <div id="right_div">
+    <h1>Models</h1>
+    <br>
+    <form method="post" id="admin-form">
+      <h2>Add</h2>
+      <input type="text" id="addname" placeholder="Name"></input>
+
+      <input type="text" id="addid" placeholder="ID"></input>
+
+      <input type="text" id="addprice" placeholder="Price"></input>
+
+      <input type="text" id="addlink" placeholder="Image link"></input>
+
+      <button id="admin-button-addmodel">Confirm</button>
+
+      <br>
+      <br>
+      <br>
+
+      <h2>Delete</h2>
+
+      <input type="text" id="deleteid" placeholder="ID"></input>
+
+      <button id="admin-button-deletemodel">Confirm</button>
+    </form>
+  </div>
+</div>
+<br>
+<br>
+<form method="post" id="admin-form">
+  <h1>Documentation</h1>
+  <p>See the internal documentation or javadoc about the backend:</p>
+  <button id="javadoc-button">See here</button>
+</form>
+
+  </body>
+</html>
