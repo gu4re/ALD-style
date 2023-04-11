@@ -41,15 +41,22 @@ Router.prototype = {
                             script_validate.src = 'js/validate.js?' + Date.now();
                             document.head.appendChild(script_validate);
                       }
-                      else{
-                          var script = document.createElement('script');
-                          script.src = 'js/login.js?' + Date.now();
-                          document.head.appendChild(script);
-                      }
+                      var script = document.createElement('script');
+<<<<<<< HEAD
+                      script.src = 'js/auth.js?' + Date.now();
+=======
+                      script.src = 'js/login.js?' + Date.now();
+>>>>>>> change_htmls
+                      document.head.appendChild(script);
                     }
                     else if (route.htmlName === 'register.html') {
                       var script = document.createElement('script');
                       script.src = 'js/register.js?' + Date.now();
+                      document.head.appendChild(script);
+                    }
+                    else if (route.htmlName === 'admin.html') {
+                      var script = document.createElement('script');
+                      script.src = 'js/admin.js?' + Date.now();
                       document.head.appendChild(script);
                     }
                     else if (route.htmlName === 'forgotPasswd.html'){
@@ -109,7 +116,7 @@ Router.prototype = {
         }
         (function(scope) {
             var url = 'html/' + htmlName,
-                xhttp = new XMLHttpRequest();
+            xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     scope.rootElem.innerHTML = this.responseText;
