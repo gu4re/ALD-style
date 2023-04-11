@@ -17,6 +17,7 @@
             new Route('forgotPasswd', 'forgotPasswd.html'),
             new Route('resetPasswd', 'resetPasswd.html'),
             new Route('validate', 'login.html'),
+            new Route('returns', 'returns.html'),
             new Route('shipping', 'shipping.html'),
             new Route('admin', 'admin.html')
         ]);
