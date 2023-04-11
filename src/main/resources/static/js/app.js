@@ -20,7 +20,12 @@
             new Route('returns', 'returns.html'),
             new Route('shipping', 'shipping.html'),
             new Route('admin', 'admin.html'),
+<<<<<<< HEAD
             new Route('documentation', 'index.html')
+=======
+            new Route('orderStatus','orderStatus.html'),
+            new Route('contact','contact.html')
+>>>>>>> change_htmls
         ]);
     }
     init();
