@@ -1,15 +1,38 @@
+console.log('Script loaded successfully');
 var buttons = document.querySelectorAll('[id^="atc_"]');
+var size = '';
+var loginButton = document.querySelector('#home-login-button');
 buttons.forEach((button) => {
   button.addEventListener('click', () => {
-    // Catch the elements to send it to backend
-
+  console.log('login text', loginButton.textContent.trim());
+    if (loginButton.textContent.trim() === 'Log in'){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops...',
+          text: 'Please log in to use this functionality',
+        })
+        window.location.href = '#login';
+        return;
+    }
+    var container = button.closest('[id^="adm_"]');
+    size = container.querySelector('[id^="ss_"]').value;
+    if (size === 'Select size'){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops...',
+          text: 'You need to select a size to add it to the cart',
+        })
+        return;
+    }
     fetch('/cart/add', {
       method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            // elements read
+            name: container.querySelector('[id^="name_"]').textContent,
+            prize: container.querySelector('[id^="p_"]').textContent.replace('$', ''),
+            size: size
         })
     })
     .then(response => {
@@ -21,13 +44,17 @@ buttons.forEach((button) => {
             icon: 'success',
             confirmButtonColor: '#0E5FA7'
           });
-        }
+          var form = document.querySelector('#cart-button-form');
+          var counter = parseInt(form.querySelector('#cart-counter').textContent);
+          var newValue = counter + 1;
+          form.querySelector('#cart-counter').textContent = newValue;
+          console.log('newCartCounter', form.querySelector('#cart-counter').textContent);
         } else if (response.status === 400){
             // If the response indicates a credential error, display an alert message
             Swal.fire({
               icon: 'warning',
               title: 'Oops...',
-              text: 'A problem has occurred during adding to cart. Try it later!',
+              text: 'Out of stock. Maximum of 3 units exceeded',
             })
         }
         else{
@@ -44,7 +71,7 @@ buttons.forEach((button) => {
         Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ' + response.status,
+              text: 'Message: ' + error.message,
               footer: '<a href="#404">Contact support for more information.</a>'
         });
     });

@@ -36,6 +36,11 @@ Router.prototype = {
                 var route = r[i];
                 if(route.isActiveRoute(window.location.hash.substr(1))) {
                     if (route.htmlName === 'login.html') {
+                      if (route.name === 'validate'){
+                            var script_validate = document.createElement('script');
+                            script_validate.src = 'js/validate.js?' + Date.now();
+                            document.head.appendChild(script_validate);
+                      }
                       var script = document.createElement('script');
                       script.src = 'js/login.js?' + Date.now();
                       document.head.appendChild(script);
@@ -60,17 +65,14 @@ Router.prototype = {
                       script.src = 'js/payment.js?' + Date.now();
                       document.head.appendChild(script);
                     }
-                    else if (route.name === 'validate') {
-                        var script = document.createElement('script');
-                        script.src = 'js/validate.js?' + Date.now();
-                        document.head.appendChild(script);
-                    }
                     else if ((route.htmlName === 'home.html') || (route.htmlName === 'popularItems.html')
                     || (route.htmlName === 'newArrivals.html') || (route.htmlName === 'allProducts.html')
                     || (route.htmlName === 'sales.html')){
-                        var script = document.createElement('script');
-                        script.src = 'js/addToCart.js?' + Date.now();
-                        document.head.appendChild(script);
+                        setTimeout(function() {
+                          var script = document.createElement('script');
+                          script.src = 'js/addToCart.js?' + Date.now();
+                          document.head.appendChild(script);
+                        }, 1500);
                     }
                     else if (route.htmlName === 'cart.html') {
                         var script = document.createElement('script');
@@ -89,6 +91,11 @@ Router.prototype = {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i];
                 if(route.default) {
+                    setTimeout(function() {
+                      var script = document.createElement('script');
+                      script.src = 'js/addToCart.js?' + Date.now();
+                      document.head.appendChild(script);
+                    }, 1500);
                     scope.goToRoute(route.htmlName, routeFound3);
                 }
             }
