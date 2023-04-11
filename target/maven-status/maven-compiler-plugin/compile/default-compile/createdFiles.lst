@@ -1,7 +1,7 @@
 es/codeurjc/controllers/HomeController.class
 es/codeurjc/controllers/CartController.class
 es/codeurjc/Application.class
-es/codeurjc/controllers/LoginController.class
+es/codeurjc/exceptions/UnsupportedExportException.class
 es/codeurjc/services/package-info.class
 es/codeurjc/controllers/rest/ForgotPasswordRestController.class
 es/codeurjc/services/SecurityService.class
@@ -15,6 +15,7 @@ es/codeurjc/controllers/rest/RegisterRestController.class
 es/codeurjc/package-info.class
 es/codeurjc/services/UserService.class
 es/codeurjc/controllers/package-info.class
+es/codeurjc/controllers/AuthController.class
 es/codeurjc/classes/Shoes.class
 es/codeurjc/controllers/rest/package-info.class
 es/codeurjc/services/MailService.class

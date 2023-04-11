@@ -3,7 +3,6 @@
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/controllers/CartController.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/controllers/rest/RegisterRestController.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/services/UserService.java
-/Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/controllers/LoginController.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/controllers/rest/package-info.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/controllers/ErrorController.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/package-info.java
@@ -11,10 +10,12 @@
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/classes/Shoes.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/controllers/rest/ForgotPasswordRestController.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/services/CartService.java
+/Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/exceptions/UnsupportedExportException.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/controllers/HomeController.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/services/package-info.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/exceptions/package-info.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/classes/package-info.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/Application.java
+/Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/controllers/AuthController.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/classes/User.java
 /Users/diegopicazo/Documents/github/ALD-style/src/main/java/es/codeurjc/exceptions/UserNotFoundException.java

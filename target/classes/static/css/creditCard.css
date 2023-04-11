@@ -38,7 +38,7 @@ input[type="text"] {
   background-color: #555;
 }
 input[type="password"] {
-  width:10%;
+  width: 10%;
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 5px;
