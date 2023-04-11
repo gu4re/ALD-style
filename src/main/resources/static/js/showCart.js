@@ -40,7 +40,7 @@ fetch('/cart/show')
         // Generating rows
         data.forEach(item => {
             let { quantity, size, price, name } = item;
-            totalPrice += price;
+            totalPrice += quantity*price;
             table += `<tr>
                   <td>${name}</td>
                   <td>$${price}</td>
