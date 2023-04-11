@@ -42,7 +42,7 @@ Router.prototype = {
                             document.head.appendChild(script_validate);
                       }
                       var script = document.createElement('script');
-                      script.src = 'js/login.js?' + Date.now();
+                      script.src = 'js/auth.js?' + Date.now();
                       document.head.appendChild(script);
                     }
                     else if (route.htmlName === 'register.html') {

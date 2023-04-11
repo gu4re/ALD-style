@@ -61,5 +61,27 @@ btn.addEventListener('click', (event) => {
         icon: 'success',
         confirmButtonColor: '#0E5FA7'
     });
+    fetch('/cart/clear', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then((response) => {
+        if(response.ok) {
+            window.location.href = '#home';
+            var form = document.querySelector('#cart-button-form');
+            form.querySelector('#cart-counter').textContent = '0';
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Internal server error!',
+                text: 'Status code: ' + response.status,
+                confirmButtonColor: '#0E5FA7',
+                footer: '<a href="#404">Contact support for more information.</a>'
+            })
+        }
+    });
     window.location.href = '#home';
 });

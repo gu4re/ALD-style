@@ -41,11 +41,9 @@ Router.prototype = {
                             script_validate.src = 'js/validate.js?' + Date.now();
                             document.head.appendChild(script_validate);
                       }
-                      else{
-                          var script = document.createElement('script');
-                          script.src = 'js/login.js?' + Date.now();
-                          document.head.appendChild(script);
-                      }
+                      var script = document.createElement('script');
+                      script.src = 'js/auth.js?' + Date.now();
+                      document.head.appendChild(script);
                     }
                     else if (route.htmlName === 'register.html') {
                       var script = document.createElement('script');
