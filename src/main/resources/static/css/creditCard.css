@@ -37,3 +37,11 @@ input[type="text"] {
 #credit-button:hover {
   background-color: #555;
 }
+input[type="password"] {
+  width:10%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f5f5f5;
+}
