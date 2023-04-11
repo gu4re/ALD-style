@@ -1,25 +1,23 @@
 package es.codeurjc.controllers;
 
-import es.codeurjc.classes.Shoes;
+import es.codeurjc.exceptions.UnsupportedExportException;
 import es.codeurjc.services.CartService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
  * Controls the mapping of the cart page and all related to
  * add and keep the control of products, in this case, shoes
  * @author gu4re
- * @version 1.1
+ * @version 1.4
  */
 @Controller
 @RequestMapping("/cart")
@@ -42,7 +40,9 @@ public class CartController {
 	public ResponseEntity<Void> add(@RequestBody String jsonRequested){
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
-			if (CartService.shoesExists(jsonObject.getString("name")))
+			if (CartService.maxQuantity(jsonObject.getString("name"),
+					Float.parseFloat(jsonObject.getString("prize")),
+					Integer.parseInt(jsonObject.getString("size"))))
 				return ResponseEntity.badRequest().build();
 			CartService.addToCart(jsonObject.getString("name"),
 					Float.parseFloat(jsonObject.getString("prize")),
@@ -60,11 +60,17 @@ public class CartController {
 	/**
 	 * Treat the returning of the whole Shoes database to the frontend to show it
 	 * inside cart
-	 * @param model Maybe need it in the future
-	 * @return the Shoes database
+	 * @return A ResponseEntity based of what happened in the Service
+	 * returning <a style="color: #E89B6C; display: inline;">200 OK with the JSONArray</a>
+	 * if all goes good and <a style="color: #E89B6C; display: inline;">400 Bad Request</a>
+	 * if not
 	 */
 	@GetMapping("/show")
-	public Map<String, Shoes> show(Model model){
-		return CartService.getShoesMap();
+	public ResponseEntity<String> show(){
+		try{
+			return ResponseEntity.ok(CartService.export().toString());
+		} catch (UnsupportedExportException e){
+			return ResponseEntity.badRequest().build();
+		}
 	}
 }

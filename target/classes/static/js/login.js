@@ -45,7 +45,7 @@ btn.addEventListener('click', (event) => {
                         <i class="bi bi-person-fill"></i> <span class="text-about">${email}</span>
                       </a>
                       <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#404">Profile</a></li>
+                        <li><a class="dropdown-item" href="#404" style="color:red">Delete account</a></li>
                         <hr class="dropdown-divider">
                         <li><a class="dropdown-item" id="sign-out">Sign out</a></li>
                       </ul>
@@ -91,7 +91,7 @@ btn.addEventListener('click', (event) => {
         Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ' + response.status,
+              text: 'Message: ' + error.message,
               confirmButtonColor: '#0E5FA7',
               footer: '<a href="#404">Contact support for more information.</a>'
         })

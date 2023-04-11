@@ -57,7 +57,7 @@ btn.addEventListener('click', (event) => {
         Swal.fire({
               icon: 'error',
               title: 'Internal server error!',
-              text: 'Status code: ' + response.status,
+              text: 'Message: ' + error.message,
               footer: '<a href="#404">Contact support for more information.</a>'
         })
     });
