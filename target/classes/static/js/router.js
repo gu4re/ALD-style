@@ -50,6 +50,11 @@ Router.prototype = {
                       script.src = 'js/register.js?' + Date.now();
                       document.head.appendChild(script);
                     }
+                    else if (route.htmlName === 'admin.html') {
+                      var script = document.createElement('script');
+                      script.src = 'js/admin.js?' + Date.now();
+                      document.head.appendChild(script);
+                    }
                     else if (route.htmlName === 'forgotPasswd.html'){
                       var script = document.createElement('script');
                       script.src = 'js/forgot.js?' + Date.now();
@@ -107,7 +112,7 @@ Router.prototype = {
         }
         (function(scope) {
             var url = 'html/' + htmlName,
-                xhttp = new XMLHttpRequest();
+            xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     scope.rootElem.innerHTML = this.responseText;
