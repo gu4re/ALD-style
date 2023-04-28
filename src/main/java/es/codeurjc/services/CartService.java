@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Service that manage all mapping about CartService
  * specially used in cart functions like add and show
  * @author gu4re
- * @version 1.3
+ * @version 1.4
  */
 @Service
 public class CartService implements Serializable {
@@ -117,5 +117,12 @@ public class CartService implements Serializable {
 			Logger.getLogger("Error has occurred during creating JSONArray.");
 			throw new UnsupportedExportException();
 		}
+	}
+	
+	/**
+	 * Allows us to clear the cart
+	 */
+	public static void clear(){
+		shoesMap.clear();
 	}
 }

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * Service that manage all about authenticate and serves the process of login
  * and register of someone inside the Web Application
  * @author gu4re
- * @version 1.8
+ * @version 1.9
  */
 @Service
 public class UserService implements Serializable {
@@ -142,5 +142,13 @@ public class UserService implements Serializable {
 			Logger.getLogger("No mapping found for that credentials.");
 			return ResponseEntity.badRequest().build();
 		}
+	}
+	
+	/**
+	 * Remove a user passed an email
+	 * @param email the email passed by the controller
+	 */
+	public static void removeUser(@NotNull String email){
+		usersMap.remove(email);
 	}
 }

@@ -6,10 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
@@ -17,7 +14,7 @@ import java.util.logging.Logger;
  * Controls the mapping of the cart page and all related to
  * add and keep the control of products, in this case, shoes
  * @author gu4re
- * @version 1.4
+ * @version 1.5
  */
 @Controller
 @RequestMapping("/cart")
@@ -72,5 +69,16 @@ public class CartController {
 		} catch (UnsupportedExportException e){
 			return ResponseEntity.badRequest().build();
 		}
+	}
+	
+	/**
+	 * Treat the clearing of the cart
+	 * @return A ResponseEntity based of what happened in the Service
+	 * returning <a style="color: #E89B6C; display: inline;">200 OK</a>
+	 */
+	@PutMapping("/clear")
+	public ResponseEntity<Void> clear(){
+		CartService.clear();
+		return ResponseEntity.ok().build();
 	}
 }
