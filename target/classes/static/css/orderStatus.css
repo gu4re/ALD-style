@@ -1,0 +1,34 @@
+#h1orderStatus {
+  text-align: center;
+  color: #333;
+  font-size: 36px;
+  font-family: Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#divorderStatus {
+  text-align: justify;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.porderStatus {
+  font-family: "Roboto", sans-serif;
+}
+
+.liorderStatus {
+  font-family: "Roboto", sans-serif;
+}
+
+#divimg {
+  text-align: center;
+  overflow: hidden;
+}
+
+.image {
+  width: 48%;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+}

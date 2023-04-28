@@ -6,57 +6,37 @@
   </head>
   <body>
     <h1 id="title">Admin panel</h1>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
     <div class="container">
-      <a id="admin-button-exit" class="btn btn-outline-dark me-2" href="#home">&lt; Back</a>
-    </div>    
+      <a id="admin-button-exit" class="btn btn-outline-dark me-2" href="#home"
+        >&lt; Back</a
+      >
+    </div>
     <div id="divg">
       <div id="left_div">
-      <h1>Users</h1>
-    <br>
-    <form method="post" id="admin-users">
-      <h2>Add</h2>
-      <input type="text" id="username" placeholder="Username"></input>
-      <input type="text" id="email" placeholder="Email"></input>
-      <input type="password" id="addpassword" placeholder="Password"></input>
-      <input type="password" id="addpasswordcheck" placeholder="Confirm password"></input>
-      <button id="admin-button-adduser">Confirm</button>
-      <br>
-      <br>
-      <br>
-      <h2>Delete</h2>
-      <input type="text" id="deletemail" placeholder="Mail"></input>
-      <button id="admin-button-deleteuser">Confirm</button>
-    </form>
+        <h1>Users</h1>
+        <br />
+        <form method="post" id="admin-users">
+          <h2>Add</h2>
+          <input type="text" id="username" placeholder="Username" />
+          <input type="text" id="email" placeholder="Email" />
+          <input type="password" id="addpassword" placeholder="Password" />
+          <input
+            type="password"
+            id="addpasswordcheck"
+            placeholder="Confirm password"
+          />
+          <button id="admin-button-adduser">Confirm</button>
+          <br />
+          <br />
+          <br />
+          <h2>Delete</h2>
+          <input type="text" id="deletemail" placeholder="Mail" />
+          <button id="admin-button-deleteuser">Confirm</button>
+        </form>
+      </div>
     </div>
-    <div id="right_div">
-      <h1>Models</h1>
-      <br>
-      <form method="post" id="admin-models">
-        <h2>Add</h2>
-        <input type="text" id="addname" placeholder="Name"></input>
-        <input type="text" id="addID" placeholder="ID"></input>
-        <input type="text" id="addprice" placeholder="Price"></input>
-        <input type="text" id="addlink" placeholder="Image link"></input>
-        <button id="admin-button-addmodel">Confirm</button>
-
-        <br>
-        <br>
-        <br>
-        <h2>Delete</h2>
-        <input type="text" id="deletename" placeholder="Name"></input>
-        <button id="admin-button-deletemodel">Confirm</button>
-      </form>
-    </div>
-  </div>
-  <br>
-  <br>
-  <form method="post" id="admin-documentation">
-    <h1>Documentation</h1>
-    <p>See the internal documentation or javadoc about the backend:</p>
-    <button id="javadoc-button">See here</button>
-  </form>
   </body>
 </html>
