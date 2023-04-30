@@ -1,4 +1,4 @@
-h1 {
+#h1contact {
   text-align: center;
   color: #333;
   font-size: 36px;
@@ -14,10 +14,11 @@ h1 {
   margin-top: 50px;
 }
 
-p {
+#pcontact {
   margin: 0;
   padding: 0 20px;
   text-align: center;
+  font-family: "Roboto", sans-serif;
 }
 
 .socialmedia img {
