@@ -3,6 +3,7 @@ package es.codeurjc.controllers;
 import es.codeurjc.services.UserService;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +29,13 @@ public class AuthController {
 	private AuthController(){}
 	
 	/**
+	 * UserService injected by autowired spring annotation
+	 */
+	@Autowired
+	@SuppressWarnings(value = "unused")
+	private UserService userService;
+	
+	/**
 	 * Treat the login requests that the controller receives from the frontend
 	 * and sending a ResponseEntity back to the web page as a response
 	 * @param jsonRequested The JSON Object as String sent from the frontend
@@ -40,14 +48,12 @@ public class AuthController {
 	public ResponseEntity<Void> login(@RequestBody String jsonRequested) {
 		try {
 			JSONObject jsonObject = new JSONObject(jsonRequested);
-			if (UserService.authenticate(
+			if (userService.authenticate(
 					jsonObject.getString("email"), jsonObject.getString("password"))){
 				if (jsonObject.getString("email").equals("admin@admin.es")
 						&& jsonObject.getString("password").equals("12345678")) {
-					System.out.println("patata");
 					return ResponseEntity.noContent().build();
 				}
-				System.out.println("melocoton");
 				return ResponseEntity.ok().build();
 			}
 			return ResponseEntity.badRequest().build();
@@ -71,10 +77,10 @@ public class AuthController {
 	public ResponseEntity<Void> delete(@RequestBody String jsonRequested){
 		try {
 			JSONObject jsonObject = new JSONObject(jsonRequested);
-			if (!UserService.userExists(
+			if (!userService.userExists(
 					jsonObject.getString("email")))
 				return ResponseEntity.badRequest().build();
-			UserService.removeUser(jsonObject.getString("email"));
+			userService.removeUser(jsonObject.getString("email"));
 			return ResponseEntity.ok().build();
 		}
 		catch(JSONException e){

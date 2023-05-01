@@ -1,27 +1,29 @@
 package es.codeurjc.classes;
 
 import lombok.Data;
+import javax.persistence.*;
 
 /**
  * Contains all the information a user can save inside the web application
  * @author gu4re
- * @version 1.0
- * @deprecated Nowadays unused, probably used in the future with
- * database implementation
+ * @version 1.2
  */
+@Entity
+@Table(name = "users")
 @Data
-@Deprecated(since = "1.0")
 public class User {
 	/**
 	 * Name of the user
 	 */
 	private String name;
 	/**
-	 * E-mail of the user
+	 * E-mail of the user. Also, the primary key of the database
 	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String email;
 	/**
-	 * Raw password of the user
+	 * Hashed password of the user
 	 */
 	private String password;
 	

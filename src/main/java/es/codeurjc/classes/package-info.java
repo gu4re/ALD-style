@@ -3,7 +3,6 @@
 * <ul>
 * <li>
  * <a style="color: #E89B6C; display: inline;">User</a> - All about user info and data.
- * Nowadays <b>deprecated</b>
 * </li>
  * <li>
  * <a style="color: #E89B6C; display: inline;">Shoes</a> -

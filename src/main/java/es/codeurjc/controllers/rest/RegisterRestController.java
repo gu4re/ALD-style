@@ -1,5 +1,7 @@
 package es.codeurjc.controllers.rest;
 
+import es.codeurjc.classes.User;
+import es.codeurjc.services.SecurityService;
 import es.codeurjc.services.UserService;
 import es.codeurjc.services.MailService;
 import org.json.JSONException;
@@ -9,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -28,14 +27,22 @@ public class RegisterRestController {
 	 * Private field for javaMailSender that allow us to send an email
 	 */
 	@Autowired
+	@SuppressWarnings(value = "unused")
 	private JavaMailSender javaMailSender;
+	
+	/**
+	 * UserService injected by autowired spring annotation
+	 */
+	@Autowired
+	@SuppressWarnings(value = "unused")
+	private UserService userService;
 	
 	/**
 	 * Store the entry of the user that requested the register petition to use it in validation request,
 	 * so it can be sent to the database. The password is saved in a char[] because it is a mutable object
 	 * that can't leave data in memory after being deleted, in difference with String object
 	 */
-	private Map.Entry<String, String> userApplicant;
+	private User userApplicant;
 	
 	/**
 	 * Private constructor avoiding initialize of RegisterRestController
@@ -58,11 +65,13 @@ public class RegisterRestController {
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
 			// Check if already exists or not and act in consequence
-			if (UserService.userExists(jsonObject.getString("email")))
+			if (userService.userExists(jsonObject.getString("email")))
 				return ResponseEntity.badRequest().build();
-			userApplicant = Map.entry(jsonObject.getString("email"), jsonObject.getString("password"));
+			userApplicant = new User(jsonObject.getString("email"),
+					SecurityService.hashCode(jsonObject.getString("password")),
+					jsonObject.getString("username"));
 			return MailService.send("Validate Account", "guare4business@gmail.com",
-					(this.userApplicant.getKey()),
+					(this.userApplicant.getEmail()),
 					"src/main/resources/static/html/validateMailFormat.html", javaMailSender);
 		} catch(JSONException e) {
 			Logger.getLogger("Error has occurred during parsing JSON.");
@@ -76,7 +85,7 @@ public class RegisterRestController {
 	 */
 	@PostMapping("/validate")
 	public void validate(){
-		UserService.addUser(this.userApplicant.getKey(), this.userApplicant.getValue());
+		userService.addUser(this.userApplicant);
 		// Security measures for temporal password saved in userApplicant attribute
 		this.userApplicant = null;
 	}
