@@ -1,7 +1,7 @@
 package es.codeurjc.classes;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import javax.persistence.*;
 
 /**
  * Contains all the information a user can save inside the web application
@@ -13,19 +13,26 @@ import javax.persistence.*;
 @Data
 public class User {
 	/**
-	 * Name of the user
-	 */
-	private String name;
-	/**
 	 * E-mail of the user. Also, the primary key of the database
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "email")
 	private String email;
+	
+	/**
+	 * Name of the user
+	 */
+	@Column(name = "username")
+	private String name;
+
 	/**
 	 * Hashed password of the user
 	 */
+	@Column(name = "password")
 	private String password;
+	
+	public User(){}
 	
 	/**
 	 * Constructor of User with just email and password leaving
