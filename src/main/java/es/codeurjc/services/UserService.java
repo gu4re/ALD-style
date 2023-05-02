@@ -1,6 +1,6 @@
 package es.codeurjc.services;
 
-import es.codeurjc.classes.User;
+import es.codeurjc.entities.UserEntity;
 import es.codeurjc.exceptions.UserNotFoundException;
 import es.codeurjc.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
@@ -58,10 +58,10 @@ public class UserService {
 	
 	/**
 	 * Register the user inside the database
-	 * @param newUser User to be added to the database
+	 * @param newUserEntity User to be added to the database
 	 */
-	public void addUser(User newUser){
-		userRepository.save(newUser);
+	public void addUser(UserEntity newUserEntity){
+		userRepository.save(newUserEntity);
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class UserService {
 	 */
 	public @NotNull ResponseEntity<Void> changePassword(@NotNull String email, @NotNull String newRawPassword){
 		try{
-			Optional<User> optionalUser = userRepository.findById(email);
+			Optional<UserEntity> optionalUser = userRepository.findById(email);
 			if (optionalUser.isEmpty())
 				throw new UserNotFoundException();
 			optionalUser.get().setPassword(SecurityService.hashCode(newRawPassword));

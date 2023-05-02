@@ -1,6 +1,6 @@
 package es.codeurjc.controllers.rest;
 
-import es.codeurjc.classes.User;
+import es.codeurjc.entities.UserEntity;
 import es.codeurjc.services.SecurityService;
 import es.codeurjc.services.UserService;
 import es.codeurjc.services.MailService;
@@ -42,7 +42,7 @@ public class RegisterRestController {
 	 * so it can be sent to the database. The password is saved in a char[] because it is a mutable object
 	 * that can't leave data in memory after being deleted, in difference with String object
 	 */
-	private User userApplicant;
+	private UserEntity userApplicant;
 	
 	/**
 	 * Private constructor avoiding initialize of RegisterRestController
@@ -67,7 +67,7 @@ public class RegisterRestController {
 			// Check if already exists or not and act in consequence
 			if (userService.userExists(jsonObject.getString("email")))
 				return ResponseEntity.badRequest().build();
-			userApplicant = new User(jsonObject.getString("email"),
+			userApplicant = new UserEntity(jsonObject.getString("email"),
 					SecurityService.hashCode(jsonObject.getString("password")),
 					jsonObject.getString("username"));
 			return MailService.send("Validate Account", "guare4business@gmail.com",

@@ -1,19 +1,20 @@
 package es.codeurjc.services;
 
-import es.codeurjc.classes.Shoes;
+import es.codeurjc.entities.CartEntity;
+import es.codeurjc.entities.ShoesEntity;
 import es.codeurjc.exceptions.UnsupportedExportException;
+import es.codeurjc.repositories.CartRepository;
+import es.codeurjc.repositories.ShoesRepository;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.context.event.ContextClosedEvent;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -23,13 +24,17 @@ import java.util.logging.Logger;
  * @version 1.4
  */
 @Service
-public class CartService implements Serializable {
+public class CartService {
 	/**
-	 * Fake database that controls the shoes inside cart in the App
-	 * and maps the name of the product (Key) with a Java Object called
-	 * Shoes that contains all info about it (Value)
+	 * Repository of the cart's table that links mySQL to backend
 	 */
-	private static Map<Shoes, Integer> shoesMap;
+	@Autowired
+	@SuppressWarnings("unused")
+	private CartRepository cartRepository;
+	
+	@Autowired
+	@SuppressWarnings("unused")
+	private ShoesRepository shoesRepository;
 	
 	/**
 	 * The max stock each pair of Shoes has
@@ -42,40 +47,18 @@ public class CartService implements Serializable {
 	private CartService(){}
 	
 	/**
-	 * Starts the CartService creating the database of the Service.<br><br>
-	 * @deprecated <a style="color: #E89B6C; display: inline;">
-	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
-	 */
-	@EventListener
-	@SuppressWarnings(value = "unused")
-	@Deprecated(since = "1.3")
-    public static void run(ContextRefreshedEvent event) {
-		shoesMap = new HashMap<>();
-	}
-	
-	/**
-	 * Stops the CartService before the Spring Application ends, clearing the shoes database
-	 * @deprecated <a style="color: #E89B6C; display: inline;">
-	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
-	 */
-	@SuppressWarnings(value = "unused")
-	@Deprecated(since = "1.3")
-	@EventListener
-	public static void stop(ContextClosedEvent event){
-		shoesMap.clear();
-	}
-	
-	/**
 	 * Check if a pair of shoes exceeds the maximum of quantity inside cart
 	 * @param name the name of the pair of shoes
-	 * @param price the price of the pair of shoes
 	 * @param size the size of the pair of shoes
 	 * @return <a style="color: #E89B6C; display: inline;">True</a> if the pair of shoes exists
 	 * otherwise <a style="color: #E89B6C; display: inline;">False</a>
 	 */
-	public static boolean maxQuantity(String name, float price, int size){
-		Shoes shoes = new Shoes(name, price, size);
-		return shoesMap.containsKey(shoes) && shoesMap.get(shoes) > STOCK;
+	public boolean maxQuantity(String name, int size){
+		CartEntity.CartEntityId cartEntityId = new CartEntity.CartEntityId();
+		cartEntityId.setSize(size);
+		cartEntityId.setShoesName(name);
+		return cartRepository.findById(cartEntityId).isPresent()
+				&& cartRepository.findById(cartEntityId).get().getQuantity() > STOCK;
 	}
 	
 	/**
@@ -84,12 +67,25 @@ public class CartService implements Serializable {
 	 * @param price the price of the pair of shoes
 	 * @param size the size of the pair of shoes
 	 */
-	public static void addToCart(String name, float price, int size){
-		Shoes shoes = new Shoes(name, price, size);
-		if (shoesMap.containsKey(shoes))
-			shoesMap.put(shoes, shoesMap.get(shoes) + 1);
-		else
-			shoesMap.put(shoes, 1);
+	public void addToCart(String name, float price, int size){
+		ShoesEntity shoesEntity = new ShoesEntity(name, price);
+		CartEntity.CartEntityId cartEntityId = new CartEntity.CartEntityId();
+		cartEntityId.setSize(size);
+		cartEntityId.setShoesName(name);
+		Optional<CartEntity> optionalCartEntity = cartRepository.findById(cartEntityId);
+		CartEntity cartEntity;
+		if (optionalCartEntity.isPresent()){
+			cartEntity = optionalCartEntity.get();
+			if (cartEntity.getCartEntityId().getSize() == size)
+				cartEntity.setQuantity(cartEntity.getQuantity() + 1);
+			else
+				cartEntity = new CartEntity(shoesEntity, size, 1);
+			cartRepository.save(cartEntity);
+		}
+		else{
+			cartEntity = new CartEntity(shoesEntity, size, 1);
+			cartRepository.save(cartEntity);
+		}
 	}
 	
 	/**
@@ -97,16 +93,20 @@ public class CartService implements Serializable {
 	 * @return the Shoes database in JSONArray format
 	 * @throws UnsupportedExportException if it was unable to convert the database to JSONArray
 	 */
-	public static @NotNull JSONArray export() throws UnsupportedExportException {
+	public @NotNull JSONArray export() throws UnsupportedExportException {
 		try{
 			JSONArray jsonArray = new JSONArray();
-			for (Map.Entry<Shoes, Integer> entry: shoesMap.entrySet()){
-				Shoes shoes = entry.getKey();
-				Integer quantity = entry.getValue();
+			List<CartEntity> cartEntityList = cartRepository.findAll();
+			for (CartEntity cartEntity: cartEntityList){
+				
+				Integer quantity = cartEntity.getQuantity();
 				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("name", shoes.getName());
-				jsonObject.put("price", shoes.getPrice());
-				jsonObject.put("size", shoes.getSize());
+				jsonObject.put("name", cartEntity.getCartEntityId().getShoesName());
+				if (shoesRepository.findById(cartEntity.getCartEntityId().getShoesName()).isEmpty())
+					throw new JSONException("Error has occurred during creating JSONArray.");
+				jsonObject.put("price", shoesRepository.findById(cartEntity.getCartEntityId().getShoesName())
+						.get().getPrice());
+				jsonObject.put("size", cartEntity.getCartEntityId().getSize());
 				jsonObject.put("quantity", quantity);
 				jsonArray.put(jsonObject);
 			}
@@ -120,7 +120,7 @@ public class CartService implements Serializable {
 	/**
 	 * Allows us to clear the cart
 	 */
-	public static void clear(){
-		shoesMap.clear();
+	public void clear(){
+		cartRepository.deleteAll();
 	}
 }

@@ -111,10 +111,10 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>private static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../classes/Shoes.html" title="class in es.codeurjc.classes">Shoes</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-first even-row-color"><code>private static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../classes/Shoes.html" title="class in es.codeurjc.entities">Shoes</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#shoesMap" class="member-name-link">shoesMap</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Fake database that controls the shoes inside cart in the App
+<div class="block">Fake database that controls the shoesEntity inside cart in the App
  and maps the name of the product (Key) with a Java Object called
  Shoes that contains all info about it (Value)</div>
 </div>
@@ -176,7 +176,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
  float&nbsp;price,
  int&nbsp;size)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Check if a pair of shoes exceeds the maximum of quantity inside cart</div>
+<div class="block">Check if a pair of shoesEntity exceeds the maximum of quantity inside cart</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#run(org.springframework.context.event.ContextRefreshedEvent)" class="member-name-link">run</a><wbr>(org.springframework.context.event.ContextRefreshedEvent&nbsp;event)</code></div>
@@ -214,8 +214,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="shoesMap">
 <h3>shoesMap</h3>
-<div class="member-signature"><span class="modifiers">private static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../classes/Shoes.html" title="class in es.codeurjc.classes">Shoes</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">shoesMap</span></div>
-<div class="block">Fake database that controls the shoes inside cart in the App
+<div class="member-signature"><span class="modifiers">private static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../classes/Shoes.html" title="class in es.codeurjc.entities">Shoes</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">shoesMap</span></div>
+<div class="block">Fake database that controls the shoesEntity inside cart in the App
  and maps the name of the product (Key) with a Java Object called
  Shoes that contains all info about it (Value)</div>
 </section>
@@ -281,7 +281,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="deprecation-comment"><a style="color: #E89B6C; display: inline;">
  This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it</div>
 </div>
-<div class="block">Stops the CartService before the Spring Application ends, clearing the shoes database</div>
+<div class="block">Stops the CartService before the Spring Application ends, clearing the shoesEntity database</div>
 </section>
 </li>
 <li>
@@ -290,14 +290,14 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">maxQuantity</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  float&nbsp;price,
  int&nbsp;size)</span></div>
-<div class="block">Check if a pair of shoes exceeds the maximum of quantity inside cart</div>
+<div class="block">Check if a pair of shoesEntity exceeds the maximum of quantity inside cart</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>name</code> - the name of the pair of shoes</dd>
-<dd><code>price</code> - the price of the pair of shoes</dd>
-<dd><code>size</code> - the size of the pair of shoes</dd>
+<dd><code>name</code> - the name of the pair of shoesEntity</dd>
+<dd><code>price</code> - the price of the pair of shoesEntity</dd>
+<dd><code>size</code> - the size of the pair of shoesEntity</dd>
 <dt>Returns:</dt>
-<dd><a style="color: #E89B6C; display: inline;">True</a> if the pair of shoes exists
+<dd><a style="color: #E89B6C; display: inline;">True</a> if the pair of shoesEntity exists
  otherwise <a style="color: #E89B6C; display: inline;">False</a></dd>
 </dl>
 </section>
@@ -311,9 +311,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="block">Adds the Shoes object passed through different args to the cart database</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>name</code> - the name of the pair of shoes</dd>
-<dd><code>price</code> - the price of the pair of shoes</dd>
-<dd><code>size</code> - the size of the pair of shoes</dd>
+<dd><code>name</code> - the name of the pair of shoesEntity</dd>
+<dd><code>price</code> - the price of the pair of shoesEntity</dd>
+<dd><code>size</code> - the size of the pair of shoesEntity</dd>
 </dl>
 </section>
 </li>

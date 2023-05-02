@@ -1,4 +1,4 @@
-package es.codeurjc.classes;
+package es.codeurjc.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -6,17 +6,16 @@ import lombok.Data;
 /**
  * Contains all the information a user can save inside the web application
  * @author gu4re
- * @version 1.2
+ * @version 1.3
  */
 @Entity
 @Table(name = "users")
 @Data
-public class User {
+public class UserEntity {
 	/**
 	 * E-mail of the user. Also, the primary key of the database
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "email")
 	private String email;
 	
@@ -32,7 +31,10 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
-	public User(){}
+	/**
+	 * Empty constructor
+	 */
+	public UserEntity(){}
 	
 	/**
 	 * Constructor of User with just email and password leaving
@@ -40,7 +42,7 @@ public class User {
 	 * @param email The email to be assigned to the User
 	 * @param password The raw password to be assigned to the User
 	 */
-	public User(String email, String password){
+	public UserEntity(String email, String password){
 		this.email = email;
 		this.password = password;
 	}
@@ -51,7 +53,7 @@ public class User {
 	 * @param password The raw password to be assigned to the User
 	 * @param name The name to be assigned to the User
 	 */
-	public User(String email, String password, String name){
+	public UserEntity(String email, String password, String name){
 		this(email, password);
 		this.name = name;
 	}
