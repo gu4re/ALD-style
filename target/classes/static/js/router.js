@@ -80,6 +80,10 @@ Router.prototype = {
             var script = document.createElement("script");
             script.src = "js/showCart.js?" + Date.now();
             document.head.appendChild(script);
+          } else if (route.htmlName === "support.html") {
+            var script = document.createElement("script");
+            script.src = "js/support.js?" + Date.now();
+            document.head.appendChild(script);
           }
           routeFound2 = true;
           routeFound3 = true;
