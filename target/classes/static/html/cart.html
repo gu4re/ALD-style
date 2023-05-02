@@ -5,8 +5,15 @@
     <link rel="stylesheet" type="text/css" href="css/cart.css" />
   </head>
   <body>
-    <section id="carrito">
+    <div>
       <h2>Shopping Cart</h2>
+        <select id="filter">
+          <option value="default">Filter by</option>
+          <option value="higher">Higher Price</option>
+          <option value="lower">Lower Price</option>
+        </select>
+    </div>
+    <section id="carrito">
       <table>
         <tr>
           <th>Product</th>
