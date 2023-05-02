@@ -15,7 +15,7 @@
       <select id="day" name="day">
         <option selected disabled>Day</option>
         <option value="1">1</option>
-        <option value="2">2</option>
+        <option value="2">2</option> 
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
@@ -79,8 +79,12 @@
       <br />
       <br />
       <label for="cvv">CVV</label>
-      <input type="password" id="cvv" name="cvv" required />
-      <button id="credit-button" type="button">Purchase</button>
+      <div id="divl">
+        <input type="password" id="cvv" name="cvv" required />
+      </div>
+      <div id="divr">
+        <button id="credit-button" type="button">Purchase</button>
+      </div>
     </form>
   </body>
 </html>
