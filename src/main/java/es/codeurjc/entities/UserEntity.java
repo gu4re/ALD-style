@@ -1,29 +1,48 @@
-package es.codeurjc.classes;
+package es.codeurjc.entities;
 
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * Contains all the information a user can save inside the web application
  * @author gu4re
- * @version 1.0
- * @deprecated Nowadays unused, probably used in the future with
- * database implementation
+ * @version 1.3
  */
+@Entity
+@Table(name = "users")
 @Data
-@Deprecated(since = "1.0")
-public class User {
+public class UserEntity {
+	/**
+	 * E-mail of the user. Also, the primary key of the database
+	 */
+	@Id
+	@Column(name = "email")
+	private String email;
+	
 	/**
 	 * Name of the user
 	 */
+	@Column(name = "username")
 	private String name;
+
 	/**
-	 * E-mail of the user
+	 * Hashed password of the user
 	 */
-	private String email;
-	/**
-	 * Raw password of the user
-	 */
+	@Column(name = "password")
 	private String password;
+	
+	/**
+	 * List of Orders made by a User
+	 */
+	@OneToMany
+	private List<OrderEntity> orderEntities;
+	
+	/**
+	 * Empty constructor
+	 */
+	public UserEntity(){}
 	
 	/**
 	 * Constructor of User with just email and password leaving
@@ -31,7 +50,7 @@ public class User {
 	 * @param email The email to be assigned to the User
 	 * @param password The raw password to be assigned to the User
 	 */
-	public User(String email, String password){
+	public UserEntity(String email, String password){
 		this.email = email;
 		this.password = password;
 	}
@@ -42,7 +61,7 @@ public class User {
 	 * @param password The raw password to be assigned to the User
 	 * @param name The name to be assigned to the User
 	 */
-	public User(String email, String password, String name){
+	public UserEntity(String email, String password, String name){
 		this(email, password);
 		this.name = name;
 	}

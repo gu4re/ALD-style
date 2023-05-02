@@ -27,7 +27,16 @@ public class ForgotPasswordRestController {
 	 * Private field for javaMailSender that allow us to send an email
 	 */
 	@Autowired
+	@SuppressWarnings(value = "unused")
 	private JavaMailSender javaMailSender;
+	
+	/**
+	 * UserService injected by autowired spring annotation
+	 */
+	@Autowired
+	@SuppressWarnings(value = "unused")
+	private UserService userService;
+	
 	/**
 	 * Store the mail of the user that requested the forgot petition to use it in restore petition
 	 */
@@ -51,7 +60,7 @@ public class ForgotPasswordRestController {
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
 			this.mailApplicant = jsonObject.getString("email");
-			if (!UserService.userExists(this.mailApplicant)){
+			if (!userService.userExists(this.mailApplicant)){
 				this.mailApplicant = "";
 				throw new UserNotFoundException();
 			}
@@ -80,7 +89,7 @@ public class ForgotPasswordRestController {
 	public @NotNull ResponseEntity<Void> reset(@RequestBody String jsonRequested){
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
-			return UserService.changePassword(this.mailApplicant, jsonObject.getString("newpassword"));
+			return userService.changePassword(this.mailApplicant, jsonObject.getString("newpassword"));
 		} catch (JSONException e){
 			Logger.getLogger("Error has occurred during parsing JSON.");
 			return ResponseEntity.notFound().build();

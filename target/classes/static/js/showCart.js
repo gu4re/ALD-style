@@ -1,4 +1,12 @@
-fetch("/cart/show")
+var mode = document.getElementById("filter").value;
+fetch("/cart/show", {
+    headers: {
+          "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+          mode: mode,
+    }),
+})
   .then((response) => {
     if (response.ok) {
       return response.json();
@@ -28,7 +36,6 @@ fetch("/cart/show")
     let totalPrice = 0;
     // Table header
     let table = `
-            <h2>Shopping Cart</h2>
             <table>
               <tr>
                 <th>Product</th>

@@ -4,6 +4,7 @@ import es.codeurjc.exceptions.UnsupportedExportException;
 import es.codeurjc.services.CartService;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
  * Controls the mapping of the cart page and all related to
  * add and keep the control of products, in this case, shoes
  * @author gu4re
- * @version 1.5
+ * @version 1.6
  */
 @Controller
 @RequestMapping("/cart")
@@ -23,6 +24,13 @@ public class CartController {
 	 * Private constructor avoiding initialize of CartController
 	 */
 	private CartController(){}
+	
+	/**
+	 * CartService injected by autowired spring annotation
+	 */
+	@Autowired
+	@SuppressWarnings(value = "unused")
+	private CartService cartService;
 	
 	/**
 	 * Treat the post requests that the controller receives from the frontend during adding
@@ -37,11 +45,10 @@ public class CartController {
 	public ResponseEntity<Void> add(@RequestBody String jsonRequested){
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
-			if (CartService.maxQuantity(jsonObject.getString("name"),
-					Float.parseFloat(jsonObject.getString("prize")),
+			if (cartService.maxQuantity(jsonObject.getString("name"),
 					Integer.parseInt(jsonObject.getString("size"))))
 				return ResponseEntity.badRequest().build();
-			CartService.addToCart(jsonObject.getString("name"),
+			cartService.addToCart(jsonObject.getString("name"),
 					Float.parseFloat(jsonObject.getString("prize")),
 					Integer.parseInt(jsonObject.getString("size")));
 			return ResponseEntity.ok().build();
@@ -63,10 +70,11 @@ public class CartController {
 	 * if not
 	 */
 	@GetMapping("/show")
-	public ResponseEntity<String> show(){
+	public ResponseEntity<String> show(@RequestBody String jsonRequested){
 		try{
-			return ResponseEntity.ok(CartService.export().toString());
-		} catch (UnsupportedExportException e){
+			JSONObject jsonObject = new JSONObject(jsonRequested);
+			return ResponseEntity.ok(cartService.export(jsonObject.getString("mode")).toString());
+		} catch (JSONException | UnsupportedExportException e){
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -78,7 +86,7 @@ public class CartController {
 	 */
 	@PutMapping("/clear")
 	public ResponseEntity<Void> clear(){
-		CartService.clear();
+		cartService.clear();
 		return ResponseEntity.ok().build();
 	}
 }

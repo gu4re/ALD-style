@@ -44,9 +44,11 @@ btn.addEventListener("click", (event) => {
                         <i class="bi bi-person-fill"></i> <span class="text-about">${email}</span>
                       </a>
                       <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" id="delete-account" style="color:red">Delete account</a></li>
+                        <li><a class="dropdown-item" id="orders">My orders</a></li>
                         <hr class="dropdown-divider">
                         <li><a class="dropdown-item" id="sign-out">Sign out</a></li>
+                        <hr class="dropdown-divider">
+                        <li><a class="dropdown-item" id="delete-account" style="color:red">Delete account</a></li>    
                       </ul>
                     </div>`;
         loginButton.removeAttribute("href");
