@@ -1,5 +1,6 @@
 var mode = document.getElementById("filter").value;
 fetch("/cart/show", {
+    method: "POST",
     headers: {
           "Content-Type": "application/json",
     },
@@ -15,7 +16,7 @@ fetch("/cart/show", {
         icon: "error",
         title: "Internal server error!",
         text: "Message: " + error.message,
-        footer: '<a href="#404">Contact support for more information.</a>',
+        footer: '<a href="#support">Contact support for more information.</a>',
       });
     }
   })

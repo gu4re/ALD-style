@@ -35,7 +35,7 @@ public class OrderEntity {
 	 * Description of the order stored in (JSON) String format
 	 * 1:1 internal relation between an Order and a Cart
 	 */
-	@Column(name = "description")
+	@Column(name = "description", length = 7000)
 	private String jsonDescription;
 	
 	/**

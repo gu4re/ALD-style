@@ -9,6 +9,7 @@ buttons.forEach((button) => {
       Swal.fire({
         icon: "warning",
         title: "Oops...",
+        confirmButtonColor: "#0E5FA7",
         text: "Please log in to use this functionality",
       });
       window.location.href = "#login";
@@ -20,6 +21,7 @@ buttons.forEach((button) => {
       Swal.fire({
         icon: "warning",
         title: "Oops...",
+        confirmButtonColor: "#0E5FA7",
         text: "You need to select a size to add it to the cart",
       });
       return;
@@ -61,6 +63,7 @@ buttons.forEach((button) => {
           Swal.fire({
             icon: "warning",
             title: "Oops...",
+            confirmButtonColor: "#0E5FA7",
             text: "Out of stock. Maximum of 3 units exceeded",
           });
         } else {
@@ -68,7 +71,8 @@ buttons.forEach((button) => {
             icon: "error",
             title: "Internal server error!",
             text: "Status code: " + response.status,
-            footer: '<a href="#404">Contact support for more information.</a>',
+            confirmButtonColor: "#0E5FA7",
+            footer: '<a href="#support">Contact support for more information.</a>',
           });
         }
       })
@@ -78,7 +82,8 @@ buttons.forEach((button) => {
           icon: "error",
           title: "Internal server error!",
           text: "Message: " + error.message,
-          footer: '<a href="#404">Contact support for more information.</a>',
+          confirmButtonColor: "#0E5FA7",
+          footer: '<a href="#support">Contact support for more information.</a>',
         });
       });
   });

@@ -1,15 +1,21 @@
 package es.codeurjc.services;
 
+import es.codeurjc.entities.OrderEntity;
 import es.codeurjc.entities.ShoesEntity;
 import es.codeurjc.exceptions.UnsupportedExportException;
 import es.codeurjc.repositories.CartRepository;
+import es.codeurjc.repositories.OrderRepository;
+import es.codeurjc.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +35,14 @@ public class CartService {
 	@Autowired
 	@SuppressWarnings("unused")
 	private CartRepository cartRepository;
-	
+
+	@Autowired
+	@SuppressWarnings("unused")
+	private OrderRepository orderRepository;
+
+	@Autowired
+	@SuppressWarnings("unused")
+	private UserRepository userRepository;
 	/**
 	 * The max stock each pair of Shoes has
 	 */
@@ -39,7 +52,19 @@ public class CartService {
 	 * Private constructor avoiding initialize of Service
 	 */
 	private CartService(){}
-	
+
+	/**
+	 * Stops the CartService before the Spring Application ends, clearing the cart database is cleaned
+	 * @deprecated <a style="color: #E89B6C; display: inline;">
+	 * This method can <b>only</b> be used by SpringBeanSystem</a> so abstain from using it
+	 */
+	@SuppressWarnings(value = "unused")
+	@Deprecated(since = "1.3")
+	@EventListener
+	public void stop(ContextClosedEvent event){
+		cartRepository.deleteAll();
+	}
+
 	/**
 	 * Check if a pair of shoes exceeds the maximum of quantity inside cart
 	 * @param name the name of the pair of shoes
@@ -92,8 +117,8 @@ public class CartService {
 			JSONArray jsonArray = new JSONArray();
 			switch (mode){
 				case "default" -> shoesEntityList = cartRepository.findAll();
-				case "Higher Price" -> shoesEntityList = cartRepository.findAllOrderedByDESCPrice();
-				case "Lower Price" -> shoesEntityList = cartRepository.findAllOrderedByASCPrice();
+				case "lower" -> shoesEntityList = cartRepository.findAllOrderedByDESCPrice();
+				case "higher" -> shoesEntityList = cartRepository.findAllOrderedByASCPrice();
 				default -> throw new UnsupportedExportException();
 			}
 			for (ShoesEntity shoesEntity : shoesEntityList){
@@ -115,7 +140,14 @@ public class CartService {
 	/**
 	 * Allows us to clear the cart
 	 */
-	public void clear(){
+	public void clear(String user) throws UnsupportedExportException{
+		OrderEntity orderEntity = new OrderEntity();
+		orderEntity.setDate(LocalDate.now());
+		orderEntity.setJsonDescription(export("default").toString());
+		if (userRepository.findById(user).isEmpty())
+			throw new UnsupportedExportException();
+		orderEntity.setUser(userRepository.findById(user).get());
+		orderRepository.save(orderEntity);
 		cartRepository.deleteAll();
 	}
 }

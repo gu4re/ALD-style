@@ -1,6 +1,8 @@
 es.codeurjc
-es.codeurjc.entities
+es.codeurjc.config
 es.codeurjc.controllers
 es.codeurjc.controllers.rest
+es.codeurjc.entities
 es.codeurjc.exceptions
+es.codeurjc.repositories
 es.codeurjc.services

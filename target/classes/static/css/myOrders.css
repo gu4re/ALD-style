@@ -1,0 +1,38 @@
+#h1myOrders {
+    text-align: center;
+    color: #333;
+    font-size: 36px;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+ table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 80%;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th2 {
+    margin-left: 137px;
+    font-weight: bold;
+  }
+  th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tbody tr:hover {
+    background-color: #ddd;
+  }

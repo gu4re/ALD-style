@@ -10,6 +10,7 @@ btn.addEventListener("click", (event) => {
     Swal.fire({
       icon: "warning",
       title: "Oops...",
+      confirmButtonColor: "#0E5FA7",
       text: "Invalid email format",
     });
     return;
@@ -30,6 +31,7 @@ btn.addEventListener("click", (event) => {
       if (response.ok) {
         Swal.fire(
           "Send success!",
+          confirmButtonColor: "#0E5FA7",
           "Check your inbox and spam box of your mail and follow the steps to recover your password.",
           "success"
         );
@@ -40,6 +42,7 @@ btn.addEventListener("click", (event) => {
         Swal.fire({
           icon: "warning",
           title: "Oops...",
+          confirmButtonColor: "#0E5FA7",
           text: "A problem has occurred during sending the mail. Try again later!",
         });
       } else {
@@ -47,7 +50,8 @@ btn.addEventListener("click", (event) => {
           icon: "error",
           title: "Internal server error!",
           text: "Status code: " + response.status,
-          footer: '<a href="#404">Contact support for more information.</a>',
+          confirmButtonColor: "#0E5FA7",
+          footer: '<a href="#support">Contact support for more information.</a>',
         });
       }
     })
@@ -57,7 +61,8 @@ btn.addEventListener("click", (event) => {
         icon: "error",
         title: "Internal server error!",
         text: "Message: " + error.message,
-        footer: '<a href="#404">Contact support for more information.</a>',
+        confirmButtonColor: "#0E5FA7",
+        footer: '<a href="#support">Contact support for more information.</a>',
       });
     });
 });

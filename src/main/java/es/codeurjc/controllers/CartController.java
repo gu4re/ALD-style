@@ -69,7 +69,7 @@ public class CartController {
 	 * if all goes good and <a style="color: #E89B6C; display: inline;">400 Bad Request</a>
 	 * if not
 	 */
-	@GetMapping("/show")
+	@PostMapping("/show")
 	public ResponseEntity<String> show(@RequestBody String jsonRequested){
 		try{
 			JSONObject jsonObject = new JSONObject(jsonRequested);
@@ -85,8 +85,13 @@ public class CartController {
 	 * returning <a style="color: #E89B6C; display: inline;">200 OK</a>
 	 */
 	@PutMapping("/clear")
-	public ResponseEntity<Void> clear(){
-		cartService.clear();
-		return ResponseEntity.ok().build();
+	public ResponseEntity<Void> clear(@RequestBody String jsonRequested){
+		try{
+			JSONObject jsonObject = new JSONObject(jsonRequested);
+			cartService.clear(jsonObject.getString("user"));
+			return ResponseEntity.ok().build();
+		} catch (JSONException | UnsupportedExportException e){
+			return ResponseEntity.badRequest().build();
+		}
 	}
 }

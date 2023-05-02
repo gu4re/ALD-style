@@ -41,17 +41,23 @@ btn.addEventListener("click", (event) => {
         var loginButton = document.querySelector('[href="#login"]');
         loginButton.innerHTML = `<div class="dropdown">
                       <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-fill"></i> <span class="text-about">${email}</span>
+                        <i class="bi bi-person-fill"></i> <span id="email-user" class="text-about">${email}</span>
                       </a>
                       <ul class="dropdown-menu my-2" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" id="delete-account" style="color:red">Delete account</a></li>
+                        <li><a class="dropdown-item" id="orders">My orders</a></li>
                         <hr class="dropdown-divider">
                         <li><a class="dropdown-item" id="sign-out">Sign out</a></li>
+                        <hr class="dropdown-divider">
+                        <li><a class="dropdown-item" id="delete-account" style="color:red">Delete account</a></li>
                       </ul>
                     </div>`;
         loginButton.removeAttribute("href");
         var signOutButton = loginButton.querySelector("#sign-out");
         var deleteButton = loginButton.querySelector("#delete-account");
+        var OrdersButton = loginButton.querySelector("#orders");
+        OrdersButton.addEventListener("click", (event) => {
+            window.location.href = "#myOrders";
+        });
         signOutButton.addEventListener("click", (event) => {
           Swal.fire({
             title: "Confirm Logout",

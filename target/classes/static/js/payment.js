@@ -66,6 +66,9 @@ btn.addEventListener("click", (event) => {
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      user: document.getElementById("email-user").innerText
+    }),
   }).then((response) => {
     if (response.ok) {
       window.location.href = "#home";

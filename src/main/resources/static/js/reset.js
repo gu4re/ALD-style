@@ -9,6 +9,7 @@ btn.addEventListener("click", (event) => {
   if (newpassword.length < 8) {
     Swal.fire({
       icon: "warning",
+      confirmButtonColor: "#0E5FA7",
       title: "Oops...",
       text: "New password must have at least 8 characters",
     });
@@ -20,6 +21,7 @@ btn.addEventListener("click", (event) => {
       icon: "warning",
       title: "Oops...",
       text: "Password fields must be the same",
+      confirmButtonColor: "#0E5FA7"
     });
     return;
   }
@@ -39,6 +41,7 @@ btn.addEventListener("click", (event) => {
       if (response.ok) {
         Swal.fire(
           "Password has changed successfully!",
+          confirmButtonColor: "#0E5FA7",
           "Now you can access with your new credentials",
           "success"
         );
@@ -49,12 +52,14 @@ btn.addEventListener("click", (event) => {
         Swal.fire({
           icon: "warning",
           title: "Oops...",
+          confirmButtonColor: "#0E5FA7",
           text: "A problem has occurred changing the password. Does not exist a user with that email",
         });
       } else {
         Swal.fire({
           icon: "error",
           title: "Internal server error!",
+          confirmButtonColor: "#0E5FA7",
           text: "Status code: " + response.status,
           footer: '<a href="#404">Contact support for more information.</a>',
         });
@@ -65,6 +70,7 @@ btn.addEventListener("click", (event) => {
       Swal.fire({
         icon: "error",
         title: "Internal server error!",
+        confirmButtonColor: "#0E5FA7",
         text: "Message: " + error.message,
         footer: '<a href="#404">Contact support for more information.</a>',
       });

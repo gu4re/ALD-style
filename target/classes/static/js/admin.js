@@ -68,7 +68,7 @@ confirm_add_user.addEventListener("click", (event) => {
               title: "Internal server error!",
               text: "Status code: " + response.status,
               footer:
-                '<a href="#404">Contact support for more information.</a>',
+                '<a href="#support">Contact support for more information.</a>',
             });
           }
         })
@@ -78,7 +78,7 @@ confirm_add_user.addEventListener("click", (event) => {
             icon: "error",
             title: "Internal server error!",
             text: "Message: " + error.message,
-            footer: '<a href="#404">Contact support for more information.</a>',
+            footer: '<a href="#support">Contact support for more information.</a>',
           });
         });
     } else if (response.status === 400) {
@@ -95,7 +95,7 @@ confirm_add_user.addEventListener("click", (event) => {
         title: "Internal server error!",
         text: "Status code: " + response.status,
         confirmButtonColor: "#0E5FA7",
-        footer: '<a href="#404">Contact support for more information.</a>',
+        footer: '<a href="#support">Contact support for more information.</a>',
       });
     }
   });
@@ -134,7 +134,7 @@ confirm_delete_user.addEventListener("click", (event) => {
         title: "Internal server error!",
         text: "Status code: " + response.status,
         confirmButtonColor: "#0E5FA7",
-        footer: '<a href="#404">Contact support for more information.</a>',
+        footer: '<a href="#support">Contact support for more information.</a>',
       });
     }
   });

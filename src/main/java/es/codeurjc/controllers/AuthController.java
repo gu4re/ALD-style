@@ -49,12 +49,12 @@ public class AuthController {
 	public ResponseEntity<Void> login(@RequestBody String jsonRequested) {
 		try {
 			JSONObject jsonObject = new JSONObject(jsonRequested);
-			if (userService.authenticate(
-					jsonObject.getString("email"), jsonObject.getString("password"))){
-				if (jsonObject.getString("email").equals("admin@admin.es")
+			if (jsonObject.getString("email").equals("admin@admin.es")
 						&& jsonObject.getString("password").equals("12345678")) {
 					return ResponseEntity.noContent().build();
 				}
+			if (userService.authenticate(
+					jsonObject.getString("email"), jsonObject.getString("password"))){
 				return ResponseEntity.ok().build();
 			}
 			return ResponseEntity.badRequest().build();

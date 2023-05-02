@@ -77,12 +77,24 @@ Router.prototype = {
               document.head.appendChild(script);
             }, 1500);
           } else if (route.htmlName === "cart.html") {
+            setTimeout(function () {
+                var script = document.createElement("script");
+                script.src = "js/showCart.js?" + Date.now();
+                document.head.appendChild(script);
+                var script2 = document.createElement("script");
+                script2.src = "js/filterCart.js?" + Date.now();
+                document.head.appendChild(script2);
+            }, 150);
+          } else if (route.htmlName === "support.html") {
             var script = document.createElement("script");
-            script.src = "js/showCart.js?" + Date.now();
+            script.src = "js/support.js?" + Date.now();
             document.head.appendChild(script);
-            var script2 = document.createElement("script");
-            script2.src = "js/filterCart.js?" + Date.now();
-            document.head.appendChild(script2);
+          } else if (route.htmlName === "myOrders.html") {
+            setTimeout(function () {
+                var script = document.createElement("script");
+                script.src = "js/orders.js?" + Date.now();
+                document.head.appendChild(script);
+            }, 150);
           }
           routeFound2 = true;
           routeFound3 = true;
