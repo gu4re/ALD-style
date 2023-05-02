@@ -22,6 +22,7 @@
       new Route("admin", "admin.html"),
       new Route("orderStatus", "orderStatus.html"),
       new Route("contact", "contact.html"),
+      new Route("orders", "orders.html"),
     ]);
   }
   init();
