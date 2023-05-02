@@ -80,6 +80,9 @@ Router.prototype = {
             var script = document.createElement("script");
             script.src = "js/showCart.js?" + Date.now();
             document.head.appendChild(script);
+            var script2 = document.createElement("script");
+            script2.src = "js/filterCart.js?" + Date.now();
+            document.head.appendChild(script2);
           }
           routeFound2 = true;
           routeFound3 = true;

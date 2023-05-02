@@ -1,10 +1,8 @@
 package es.codeurjc.services;
 
-import es.codeurjc.entities.CartEntity;
 import es.codeurjc.entities.ShoesEntity;
 import es.codeurjc.exceptions.UnsupportedExportException;
 import es.codeurjc.repositories.CartRepository;
-import es.codeurjc.repositories.ShoesRepository;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +10,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -32,10 +30,6 @@ public class CartService {
 	@SuppressWarnings("unused")
 	private CartRepository cartRepository;
 	
-	@Autowired
-	@SuppressWarnings("unused")
-	private ShoesRepository shoesRepository;
-	
 	/**
 	 * The max stock each pair of Shoes has
 	 */
@@ -54,11 +48,11 @@ public class CartService {
 	 * otherwise <a style="color: #E89B6C; display: inline;">False</a>
 	 */
 	public boolean maxQuantity(String name, int size){
-		CartEntity.CartEntityId cartEntityId = new CartEntity.CartEntityId();
-		cartEntityId.setSize(size);
-		cartEntityId.setShoesName(name);
-		return cartRepository.findById(cartEntityId).isPresent()
-				&& cartRepository.findById(cartEntityId).get().getQuantity() > STOCK;
+		ShoesEntity.ShoesEntityId shoesEntityId = new ShoesEntity.ShoesEntityId();
+		shoesEntityId.setSize(size);
+		shoesEntityId.setShoesName(name);
+		return cartRepository.findById(shoesEntityId).isPresent()
+				&& cartRepository.findById(shoesEntityId).get().getQuantity() > STOCK;
 	}
 	
 	/**
@@ -68,23 +62,22 @@ public class CartService {
 	 * @param size the size of the pair of shoes
 	 */
 	public void addToCart(String name, float price, int size){
-		ShoesEntity shoesEntity = new ShoesEntity(name, price);
-		CartEntity.CartEntityId cartEntityId = new CartEntity.CartEntityId();
-		cartEntityId.setSize(size);
-		cartEntityId.setShoesName(name);
-		Optional<CartEntity> optionalCartEntity = cartRepository.findById(cartEntityId);
-		CartEntity cartEntity;
+		ShoesEntity.ShoesEntityId shoesEntityId = new ShoesEntity.ShoesEntityId();
+		shoesEntityId.setSize(size);
+		shoesEntityId.setShoesName(name);
+		Optional<ShoesEntity> optionalCartEntity = cartRepository.findById(shoesEntityId);
+		ShoesEntity shoesEntity;
 		if (optionalCartEntity.isPresent()){
-			cartEntity = optionalCartEntity.get();
-			if (cartEntity.getCartEntityId().getSize() == size)
-				cartEntity.setQuantity(cartEntity.getQuantity() + 1);
+			shoesEntity = optionalCartEntity.get();
+			if (shoesEntity.getShoesEntityId().getSize() == size)
+				shoesEntity.setQuantity(shoesEntity.getQuantity() + 1);
 			else
-				cartEntity = new CartEntity(shoesEntity, size, 1);
-			cartRepository.save(cartEntity);
+				shoesEntity = new ShoesEntity(name, size, 1, price);
+			cartRepository.save(shoesEntity);
 		}
 		else{
-			cartEntity = new CartEntity(shoesEntity, size, 1);
-			cartRepository.save(cartEntity);
+			shoesEntity = new ShoesEntity(name, size, 1, price);
+			cartRepository.save(shoesEntity);
 		}
 	}
 	
@@ -93,20 +86,22 @@ public class CartService {
 	 * @return the Shoes database in JSONArray format
 	 * @throws UnsupportedExportException if it was unable to convert the database to JSONArray
 	 */
-	public @NotNull JSONArray export() throws UnsupportedExportException {
+	public @NotNull JSONArray export(@NotNull String mode) throws UnsupportedExportException {
 		try{
+			List<ShoesEntity> shoesEntityList = new ArrayList<>();
 			JSONArray jsonArray = new JSONArray();
-			List<CartEntity> cartEntityList = cartRepository.findAll();
-			for (CartEntity cartEntity: cartEntityList){
-				
-				Integer quantity = cartEntity.getQuantity();
+			switch (mode){
+				case "default" -> shoesEntityList = cartRepository.findAll();
+				case "Higher Price" -> shoesEntityList = cartRepository.findAllOrderedByDESCPrice();
+				case "Lower Price" -> shoesEntityList = cartRepository.findAllOrderedByASCPrice();
+				default -> throw new UnsupportedExportException();
+			}
+			for (ShoesEntity shoesEntity : shoesEntityList){
+				Integer quantity = shoesEntity.getQuantity();
 				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("name", cartEntity.getCartEntityId().getShoesName());
-				if (shoesRepository.findById(cartEntity.getCartEntityId().getShoesName()).isEmpty())
-					throw new JSONException("Error has occurred during creating JSONArray.");
-				jsonObject.put("price", shoesRepository.findById(cartEntity.getCartEntityId().getShoesName())
-						.get().getPrice());
-				jsonObject.put("size", cartEntity.getCartEntityId().getSize());
+				jsonObject.put("name", shoesEntity.getShoesEntityId().getShoesName());
+				jsonObject.put("price", shoesEntity.getPrice());
+				jsonObject.put("size", shoesEntity.getShoesEntityId().getSize());
 				jsonObject.put("quantity", quantity);
 				jsonArray.put(jsonObject);
 			}

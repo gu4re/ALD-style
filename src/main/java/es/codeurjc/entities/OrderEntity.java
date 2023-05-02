@@ -2,8 +2,10 @@ package es.codeurjc.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Contains all the information about a completed order can have inside the web application
@@ -12,6 +14,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "orders")
+@NoArgsConstructor
 @Data
 public class OrderEntity {
 	/**
@@ -35,5 +38,15 @@ public class OrderEntity {
 	@Column(name = "description")
 	private String jsonDescription;
 	
-	public OrderEntity(){}
+	/**
+	 * N Orders can own to the same user
+	 */
+	@ManyToOne
+	private UserEntity user;
+	
+	@ManyToMany
+	@JoinTable(name = "order_shoes",
+    joinColumns = {@JoinColumn(name = "order_id")},
+    inverseJoinColumns = {@JoinColumn(name = "shoes_name"), @JoinColumn(name = "size")})
+	private List<ShoesEntity> shoesEntities;
 }

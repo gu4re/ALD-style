@@ -1,45 +1,52 @@
 package es.codeurjc.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * Contains all the information shoes can have inside the web application
+ * Contains all the information cart can have inside the web application
  * @author gu4re
- * @version 1.1
+ * @version 1.0
  */
 @Entity
-@Table(name = "shoes")
+@Table(name = "cart")
 @Data
+@NoArgsConstructor
 public class ShoesEntity {
-	/**
-	 * Name of the pair of shoes
-	 */
-	@Id
-	@Column(name = "name")
-	private String name;
 	
-	/**
-	 * Price of the pair of shoes
-	 */
+	@EmbeddedId
+	@Column(name = "cart_id")
+	private ShoesEntityId shoesEntityId;
+	
+	@Data
+	@Embeddable
+	public static class ShoesEntityId implements Serializable {
+	    @Column(name = "shoesName")
+	    private String shoesName;
+	
+	    @Column(name = "size")
+	    private int size;
+	}
+	
+	@Column(name = "quantity")
+	private int quantity;
+	
 	@Column(name = "price")
 	private float price;
 	
-	/**
-	 * Empty Constructor
-	 */
-	public ShoesEntity(){}
+	@ManyToMany(mappedBy = "shoesEntities")
+	private List<OrderEntity> orderEntities;
 	
-	/**
-	 * Constructor to generate a Shoes object with all necessary info
-	 * @param name the name for the shoes
-	 * @param price the price of the shoes
-	 */
-	public ShoesEntity(String name, float price){
-		this.name = name;
+	public ShoesEntity(@NotNull String shoesName, int size, int quantity, float price){
+		shoesEntityId = new ShoesEntityId();
+		shoesEntityId.setShoesName(shoesName);
+		shoesEntityId.setSize(size);
+		this.quantity = quantity;
 		this.price = price;
 	}
 }

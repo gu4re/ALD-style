@@ -3,6 +3,8 @@ package es.codeurjc.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Contains all the information a user can save inside the web application
  * @author gu4re
@@ -30,6 +32,12 @@ public class UserEntity {
 	 */
 	@Column(name = "password")
 	private String password;
+	
+	/**
+	 * List of Orders made by a User
+	 */
+	@OneToMany
+	private List<OrderEntity> orderEntities;
 	
 	/**
 	 * Empty constructor

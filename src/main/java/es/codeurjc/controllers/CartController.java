@@ -70,10 +70,11 @@ public class CartController {
 	 * if not
 	 */
 	@GetMapping("/show")
-	public ResponseEntity<String> show(){
+	public ResponseEntity<String> show(@RequestBody String jsonRequested){
 		try{
-			return ResponseEntity.ok(cartService.export().toString());
-		} catch (UnsupportedExportException e){
+			JSONObject jsonObject = new JSONObject(jsonRequested);
+			return ResponseEntity.ok(cartService.export(jsonObject.getString("mode")).toString());
+		} catch (JSONException | UnsupportedExportException e){
 			return ResponseEntity.badRequest().build();
 		}
 	}
