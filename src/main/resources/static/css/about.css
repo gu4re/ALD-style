@@ -1,0 +1,29 @@
+#h1about {
+  text-align: center;
+  color: #333;
+  font-size: 36px;
+  font-family: Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#divabout {
+  text-align: justify;
+  margin: 0 auto;
+  max-width: 800px;
+}
+.pabout {
+  font-family: "Roboto", sans-serif;
+}
+
+#img9 {
+  width: 700px;
+  display: block;
+  margin: 0 auto;
+}
+
+#img11 {
+  width: 500px;
+  display: block;
+  margin: 0 auto;
+}

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"es.codeurjc"},{"l":"es.codeurjc.config"},{"l":"es.codeurjc.controllers"},{"l":"es.codeurjc.controllers.rest"},{"l":"es.codeurjc.entities"},{"l":"es.codeurjc.exceptions"},{"l":"es.codeurjc.repositories"},{"l":"es.codeurjc.services"}];updateSearchResults();
